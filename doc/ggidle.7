@@ -1,0 +1,301 @@
+\" HEADER {{{
+.TH GGIDLE 7 ggidle
+
+.SH NAME
+GG's IDLE \- The GG's Integrated Development & Living Enviroment
+\" }}}
+
+\" INTRO {{{
+.SH INTRO
+Hello, there! Welcome to IDLE! IDLE is a digital enviroment to develop and live. As you installed the IDLE package, you may wish to install IDLE to your own system.
+.P
+To install IDLE, simply run
+.B ggidle-install.
+The script will perform a full upgrade of your system and them will ask you the options to perform the installation.
+\" }}}
+
+\" LEARNING {{{
+.SH LEARNING THE SYSTEM
+IDLE installs several programs that integrate with each other on your system and with your user configs. To learn how to proper use them, you may read the man pages for each one of them. IDLE have custom man pages for every program it customizes, besides other pages too. To acess them, just use
+.B man\ idle_\fINAME_OF_PROGRAM.
+For example, 
+.B man\ idle_vim
+will bring the man page about the customizations made through the .vim directory and .vimrc config file of the user, and how to proper use them integrated with other parts of the system.
+\" }}}
+
+\" UPGRADING {{{
+.SH UPGRADING
+Idle do not upgrade by itself. You can run
+.B ggidle-upgrade
+to update dotfiles and rebuild suckless programs, but this will override any configuration that you may changed by yourself.
+\" }}}
+
+\" LINKS {{{
+.SH OTHER PAGES
+These are the man pages besides the programs-specific man pages:
+.TP
+.B idle_basic
+Learn the basic usage of the system.
+.TP
+.B idle_desktop
+Learn how the desktop enviroment works: window managment, shortcuts, menus, statusbar and session managment.
+.TP
+.B idle_customize
+Learn how to customize main things in IDLE: suckless programs and scripts.
+.TP
+.B idle_developer
+Learn how to use IDLE features to develop software.
+\" }}}
+
+\" PROGRAMS {{{
+.SH IDLE PROGRAMS
+This is the list of all IDLE's default installation programs:
+
+.SS DESKTOP ENVIROMENT
+.TP
+.B xorg
+literally the graphical server
+.TP
+.B dwm 
+suckless window manager with a nice statusbar
+.TP
+.B dmenu 
+suckless scriptable menu
+.TP
+.B slock 
+suckless screen locker
+.TP
+.B picom 
+nice program so we have transparency
+.TP
+.B nitrogen 
+wallpapers are better than blank desktops
+.TP
+.B dunst 
+nice program so we have desktop notifications
+.TP
+.B libnotify 
+dunst is uselles without it
+.TP
+.B capitaine-cursors  
+cool cursor theme used on IDLE
+.TP
+.B flat-remix (AUR)
+cool icon theme used on IDLE
+.TP
+.B flat-remix-gtk (AUR) 
+cool gtk theme used on IDLE
+.TP
+.B gtk3
+the motherfucking gtk3 toolkit 
+.TP
+.B lx-session 
+lx gtk IDLE federal police dept.
+.TP
+.B qt5-styleplugins (AUR) 
+nice lib that allows qt to mimic gtk and often gives headache on updates
+.TP
+.B lightdm 
+because a graphical login prompt is better than a black terminal
+.TP
+.B lightdm-gtk-greeter 
+lightdm needs it anyway
+.TP
+.B lightdm-gtk-greeter-settings 
+we need to rice it of course
+.TP
+.B xdg-user-dirs
+so we have actually default directories
+.TP
+.B clipmenu
+clipboard manager but without the manager
+
+.SS APPLICATIONS
+
+.TP
+.B qutebrowser 
+minimal browser for the bloated web
+.TP
+.B zathura 
+literally a shell but for files
+.TP
+.B gnome-screenshot 
+so you can post IDLE in r/unixporn
+.TP
+.B gnome-mines 
+real-time strategy game simulating a minesweeper ship in the World War I
+.TP
+.B gnome-chess 
+it has a cute horse
+.TP
+.B gimp
+MNU Pmage Ianipulation Grogram 
+.TP
+.B transmission-gtk 
+so you can download isos 4x faster (and other things too...)
+.TP
+.B sxiv 
+image viewer but do not sucks
+.TP
+.B galculator 
+cool gtk calculator because we never learned arithmetics in school
+.TP
+.B gcolor2 
+simple color picker to help you rice your IDLE
+.TP
+.B st 
+terminal emulator but suckless
+
+.SS TERMINAL-BASED APPLICATIONS
+
+.TP
+.B vim 
+text editor of the beast
+.TP
+.B vi 
+same but older
+.TP
+.B htop 
+so we can pretend we're cool hackers
+.TP
+.B cmus 
+everyone likes music
+.TP
+.B mpv 
+everyone likes watching videos
+.TP
+.B neomutt 
+wait, you guys still use e-mail? so 2000
+.TP
+.B newsboat 
+a ship of journalists
+.TP
+.B lf (AUR)
+ranger but do not sucks
+
+.SS AUDIO
+
+.TP
+.B pulseaudio 
+literally the audio server
+.TP
+.B pulseaudio-alsa 
+so it interacts with the tux kernel
+.TP
+.B pamixer 
+so we actually can change volume and etc
+.TP
+.B alsa-utils 
+literally ask tux to change the volume
+
+.SS FONTS
+
+.TP
+.B gnu-free-fonts 
+pretty standart
+.TP
+.B otf-ipafont 
+japanese text needs japanese font
+.TP
+.B ttf-ubuntu-font-family 
+the best font family in the world
+.TP
+.B nerd-fonts-ubuntu-mono (AUR) 
+ubuntu font + nerd icons <3
+.TP
+.B ttf-dejavu 
+web needs a websish font
+
+.SS GAMES AND STUPID TERMINAL STUFF
+
+.TP
+.B gnuchess 
+turn-based strategy RPG game
+.TP
+.B unimatrix (AUR) 
+cmatrix but with actually Matrix references
+.TP
+.B neofetch 
+ArchLinux' default wallpaper
+.TP
+.B pfetch 
+neofetch but do not sucks
+.TP
+.B cowsay 
+cow speaking whatever you want
+.TP
+.B doge
+the DOGE
+.TP
+.B asciiquarium 
+it's cute
+.TP
+.B nyancat 
+SO FUCKING CUTE
+.TP
+.B tty-clock-git 
+another ArchLinux default wallpaper
+.TP
+.B onefetch 
+like neo but for git repositories
+
+.SS COMMAND-LINE TOOLS
+
+.TP
+.B man-pages 
+manuals to code in boomer (C)
+.TP
+.B sudo 
+because maybe you didn't installed it already
+.TP
+.B polkit 
+IDLE federal police dept.
+.TP
+.B zsh 
+The Zoomer Shell
+.TP
+.B gcc 
+CNU Gompiler Collection
+.TP
+.B git 
+tux's software masterpiece
+.TP
+.B pass 
+PLS PROTECT YOUR PASSWORDS
+.TP
+.B the_silver_searcher 
+1s2 2s2 2p6 3s2 3p6 4s2 3d10 4p6 5s1 4d10
+.TP
+.B wget 
+why the hack you do not have this already?
+.TP
+.B base-devel 
+wait you ain't supposed to have this already to install IDLE?
+.TP
+.B yay (AUR) 
+like pacman but actually supports AUR
+.TP
+.B udisks2 
+sudo mount /dev/sdb1 /mnt never more
+.TP
+.B ctags 
+tags for boomer programming (and other languages too)
+.TP
+.B youtube-dl 
+just fucking use it. no one really cares.
+.TP
+.B pacman-contrib 
+nice scripts so we can now about updates without sudo
+.TP
+.B zathura-pdf-mupdf 
+nice lib so zathura can actually render the motherfucking pdf
+.TP
+.B bat 
+cat but bloated
+.TP
+.B mediainfo 
+one command serves them all
+.TP
+.B ffmpeg
+literally make everything, from frying chicken to serves you with codecs
+\" }}}
