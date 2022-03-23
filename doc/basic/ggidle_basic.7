@@ -1,0 +1,63 @@
+\" HEADER {{{
+.TH GGIDLE\ BASIC\ USAGE 7 ggidle
+
+.SH NAME
+
+GG's IDLE \- The basics of GG's Integrated Development & Living Enviroment
+\" }}}
+
+.B NOTE: 
+This page explains the basic of how the enviroment works. For a full list of keyboard shortcuts, please read ggidle_shortcuts.
+
+.SH THE DWM WINDOW MANAGER
+
+The IDLE's desktop enviroment is built around the suckless' DWM (Dynamic Window Manager). It's recommended to read about the DWM on suckless' website and basics of tilling window managment.
+
+.SH SCRIPTS AND PROGRAMS
+
+All scripts used by the enviroment or programs that somehow integrate with the enviroment are installed at ~/.local/bin. Most of them are dmenu scripts that integrates with other programs, like Qutebrowser or Cmus. 
+
+The scripts and programs autostarted by DWM are:
+
+.TP
+.B dwmstatus.sh
+updates dwm panel
+.TP
+.B dwmtasks.sh
+sends notification about package updates
+.TP
+.B nitrogen
+sets our wallpaper
+.TP
+.B picom
+allows transparency and cool animations and effects
+.TP 
+.B lxsession
+activates our graphic system policy authenticator
+.TP
+.B dunst
+sends our notifications
+
+.SH PANEL
+
+The DWM built-in panel shows you in the left side the active tags, the DWM mode (Arch Linux icon for tilling, and maximized or floating windows icons for monocle and floating) and the windows in the current workspace.
+
+In the right side, you have information about the current music on the Cmus music player (or "nothing playing" if nothing is playing), pamixer volume information, internet icon (wifi signal for connected to wifi, a globe for connected via ethernet and a crossed wifi signal for disconnected), battery information and the current date and time.
+
+The panel is only auto-updated once a minute, so the time is not minute-accurate. Cmus and the volume keyboard shortcuts have configurations to auto-update the panel on demand, so once the music status or the volume are changed, the panel will update.
+
+The script that updates the panel is the dwmstatus.sh. It have a function status, that outputs to the command xsetroot on the bottom of the script. You may want to hack it to disable some widgets or create your own. Note that every 'echo' command at status need to have the -n flag so it do not output a newline character.
+
+.SH WALLPAPER
+
+Our wallpaper is choosed with nitrogen. You can choose a wallpaper and it will remember your choice.
+
+.SH LAUNCHING AND KILLING
+
+You can launch a terminal with 'Super + Enter'. To launch other programs, use their shortcuts (see ggidle_shortcuts) or use dmenu, with 'Super + a'.
+
+To kill a window, use 'Super + w'
+
+.SH EXITING
+
+To exit from the IDLE's enviroment and get back to the login screen, use 'Super + Ctrl + q'. To shutdown, reboot, suspend, lock or exit too, you can use the dmenu logout script with 'Super + Ctrl + l'.
