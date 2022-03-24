@@ -8,52 +8,189 @@ GG's IDLE \- Using keyboard shortcuts
 
 Everything in GG's IDLE is keyboard-driven and for most things you simply can't use the mouse.
 
+Please notice that even if you recompile DWM with new keys, this manual will continue to show the default IDLE ones!
+
+The list is separed in:
+
+.TP
+.B -\ dwm\ common\ operations
+.TP
+.B -\ dmenu
+.TP
+.B -\ launchers
+.TP
+.B -\ miscellaneous
+
 .SH LIST
 
+\" DWM COMMON OPERATIONS {{{
 .SS DWM COMMON OPERATIONS
 .TP
-.B Super + a
+.B Super\ +\ a
 spawns dmenu with the dmenu_run script
 .TP
-.B Super + Enter
+.B Super\ +\ Enter
 spawns a terminal (default: st). OBS: please DO NOT FUCKING uninstall ST
 .TP
-.B Super + Ctrl + b
+.B Super\ +\ Ctrl\ +\ b
 toggles on/off the DWM panel
 .TP
-.B Super + j
+.B Super\ +\ j
 focus previous window in DWM stack
 .TP
-.B Super + k
+.B Super\ +\ k
 focus next window in DWM stack
 .TP
-.B Super + Shift + j
+.B Super\ +\ Shift\ +\ j
 rotates master or slave area
 .TP
-.B Super + Shift + k
+.B Super\ +\ Shift\ +\ k
 rotates master or slave area (reversed)
 .TP
-.B Super + Shift + h
+.B Super\ +\ Shift\ +\ h
 increases master area
 .TP
-.B Super + Shift + l
+.B Super\ +\ Shift\ +\ l
 shrinks master area
 .TP
-.B Super + Shift + Enter
+.B Super\ +\ Shift\ +\ Enter
 swaps window with master
 .TP
-.B Ctrl + Shift + Tab
+.B Ctrl\ +\ Shift\ +\ Tab
 go to last used workspace
 .TP
-.B Super + w
+.B Super\ +\ w
 kills window
 .TP
-.B Super + Ctrl + t
+.B Super\ +\ Ctrl\ +\ t
 select tilling layout
 .TP
-.B Super + Ctrl + f
+.B Super\ +\ Ctrl\ +\ f
 select floating layout
 .TP
-.B Super + Ctrl + m
+.B Super\ +\ Ctrl\ +\ m
 select monocle layout
 .TP
+.B Super\ +\ Space
+select last selected layout
+.TP
+.B Super\ +\ Shift\ +\ f
+toggle floating mode for the current window
+.TP
+.B Super\ +\ Shift\ +\ s
+toggle stick mode for the current window (it follows you by the tags)
+.TP
+.B Super\ +\ 0
+toggle all tags
+.TP
+.B Super\ +\ Shift\ +\ 0
+sets all tags for the current window (not recommended, use stick instead)
+.TP
+.B Super\ +\ ,
+focus previous screen/monitor, if any
+.TP
+.B Super\ +\ .
+focus next screen/monitor, if any
+.TP
+.B Super\ +\ Shift\ +\ ,
+send current window to previous screen/monitor, if any
+.TP
+.B Super\ +\ Shift\ +\ .
+send current window to next screen/monitor, if any
+.TP
+.B Super\ +\ Alt\ +\ -
+shrink window gaps
+.TP
+.B Super\ +\ Alt\ +\ =
+increase window gaps
+.TP
+.B Super\ +\ -
+reset window gaps to default value
+.TP
+.B Super\ +\ =
+toggle window gaps
+.TP
+.B Super\ +\ <NUMBERS\ 1-9>
+toggle view on only the numbered tag
+.TP
+.B Super\ +\ <NUMBERS\ 1-9>
+toggle view on the numbered tag
+.TP
+.B Super\ +\ Shift\ +\ <NUMBERS\ 1-9>
+sends window to the numbered tag
+.TP
+.B Super\ +\ Ctrl\ +\ Shift\ +\ <NUMBERS\ 1-9>
+toggle window on the numbered tag
+\" }}}
+
+\" DMENU {{{
+.SS DMENU
+.TP
+.B Super\ +\ Ctrl\ +\ l
+opens logout menu (to logout, shutdown, restart, lock or suspend)
+.TP
+.B Super\ +\ Ctrl\ +\ r
+opens record menu (uses ffmpeg to record screen, webcam, microphone, etc, to ~/Desktop)
+.TP
+.B Super\ +\ d
+lists directories in ~/Projects and opens Vim with the $PWD on the dmenu choice
+.TP
+.B Super\ +\ b
+allow to choose a Qutebrowser quickmark to open in Qutebrowser (also works if type another url, without spaces)
+.TP
+.B Super\ +\ c
+lists directories in ~/Music/**, opens Cmus and start playing the first result of a search with the dmenu choice. Sometimes it simply fail
+\" }}}
+
+\" LAUNCHERS {{{
+.SS LAUNCHERS
+.TP
+.B Super\ +\ n
+open Qutebrowser
+.TP
+.B Super\ +\ v
+open Vim
+.TP
+.B Super\ +\ m
+open Cmus
+.TP
+.B Super\ +\ p
+open Gnome Screenshot
+.TP
+.B Super\ +\ t
+open Neomutt email client
+.TP
+.B Super\ +\ s
+open Htop
+.TP
+.B Super\ +\ r
+open Newsboat rss feed reader
+.TP
+.B Super\ +\ f
+open LF file manager
+.TP
+.B Super\ +\ u
+perform a full system upgrade with yay (needs to enter sudo password in the spawned terminal)
+\" }}}
+
+\" MISCELLANEOUS {{{
+.SS MISCELLANEOUS
+.TP
+.B Ctrl\ +\ Alt\ +\ k
+increase volume
+.TP
+.B Ctrl\ +\ Alt\ +\ j
+decrease volume
+.TP
+.B Ctrl\ +\ Alt\ +\ m
+mute volume
+.TP
+.B Ctrl\ +\ Alt\ +\ p
+pause Cmus music
+.TP
+.B Ctrl\ +\ Alt\ +\ l
+skip Cmus song
+.TP
+.B Ctrl\ +\ Alt\ +\ h
+return Cmus song to the begin or previous song
+\" }}}
