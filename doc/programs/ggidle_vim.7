@@ -1,0 +1,62 @@
+.TH GGIDLE\ VIM\ CONFIGS
+
+.SH NAME
+Vim - Vi Improved, GG's IDLE configuration and workflow.
+
+.SH INTRO
+The Vim configuration for GG's IDLE is focused on the minimalism, providing a confortable and "zen" editing experience, and searches the most efficient way to use the Vim text editor, specially for C and Shell programming and general text edit.
+
+.SH BASIC AND MINOR CONFIGS
+The settings 'formatoptions' is setted with '+=r', the path with '+=**', the default fold method is the marker and 'ignorecase' is enabled.
+
+.SH PLUGINS
+The vim-plug plugin manager is installed and the only other plugins are 'ervandew/supertab' (for insert mode completion with tab) and the world-famous 'tpope/vim-commentary'.
+
+.SH WILDMENU
+Wildmenu is enabled and the wildignore is setted to ignore the defaults and '__pycache__', 'test.txt', 'test*.txt', 'a.out' and 'LICENSE'.
+
+.SH SPLITS
+Splits are setted to below and right for a more natural splitting.
+
+.SH WRAP AND LINEBREAK
+both are only enabled when editing .md, .html, .txt or .ms files
+
+.SH KEYBINDS
+
+.SS TERMINAL
+.TP
+I use a ST keybind for terminals that open a new instance in the same $PWD, but there's a comented line in .vimrc that can add 'Ctrl + t' to open a Vim terminal window
+
+.SS SPLITS
+.TP
+\'Ctrl + w' followed by 'Ctrl + i' will open a vertical split. Horizontal is the same keychord changing the 'i' for an 'u'.
+
+.TP
+Also, you can navigate between the Vim windows with 'Ctrl + <H, J, K, L>' which is much more easy than the default keychord.
+
+.SS SNIPPETS
+.TP
+All snippets files are in ~/.vim/snippets. As they have my name and/or email, you may want to hack on them and on snippets configs on .vimrc.
+.TP
+.B ;c
+generates the header of a C file including stdio.h and stdlib.h, the int function with the filename returning 0, a comment with my name, email and the current date.
+.TP
+.B ;ds
+generates a simple author, version and date comment with #, for Shell and other scripting languages.
+.TP
+.B ;mitc
+generates the MIT license in C comments
+.TP
+.B .mits 
+generates the MIT license in shell comments.
+.TP
+.B mitt
+generates the MIT license in text.
+
+.SS GENERAL
+.TP
+.B tn
+toggles relative line numbers
+.TP
+.B Space Space
+Searches the next '++' and edit it
