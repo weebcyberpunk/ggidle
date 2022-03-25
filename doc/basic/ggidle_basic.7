@@ -13,6 +13,12 @@ This page explains the basic of how the enviroment works. For a full list of key
 
 The IDLE's desktop enviroment is built around the suckless' DWM (Dynamic Window Manager). It's recommended to read about the DWM on suckless' website and basics of tilling window managment.
 
+.SH LAUNCHING AND KILLING
+
+You can launch a terminal with 'Super + Enter'. To launch other programs, use their shortcuts (see ggidle_shortcuts) or use dmenu, with 'Super + a'.
+
+To kill a window, use 'Super + w'
+
 .SH SCRIPTS AND PROGRAMS
 
 All scripts used by the enviroment or programs that somehow integrate with the enviroment are installed at ~/.local/bin. Most of them are dmenu scripts that integrates with other programs, like Qutebrowser or Cmus. 
@@ -50,13 +56,11 @@ The script that updates the panel is the dwmstatus.sh. It have a function status
 
 .SH WALLPAPER
 
-Our wallpaper is choosed with nitrogen. You can choose a wallpaper and it will remember your choice. The install script automatically configure nitrogen and sets a wallpaper from the GG's collection installed at /usr/share/backgrounds/Wallpapers. This directory is a git repository, and you can update wallpapers with "git pull origin master".
+Our wallpaper is choosed with Nitrogen. You can choose a wallpaper and it will remember your choice. The install script automatically configure Nitrogen and sets a wallpaper from the GG's collection installed at /usr/share/backgrounds/Wallpapers. This directory is a git repository, and you can update wallpapers with "git pull origin master".
 
-.SH LAUNCHING AND KILLING
-
-You can launch a terminal with 'Super + Enter'. To launch other programs, use their shortcuts (see ggidle_shortcuts) or use dmenu, with 'Super + a'.
-
-To kill a window, use 'Super + w'
+To add custom wallpapers, 
+.B DO\ NOT\ 
+add them to /usr/share/backgrounds/Wallpapers, or you won't be able to update the IDLE wallpapers. Nitrogen adds /usr/share/backgrounds recursively, so you can create another directory or place the new files directly there.
 
 .SH EXITING
 

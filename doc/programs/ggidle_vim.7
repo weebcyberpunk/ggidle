@@ -1,4 +1,4 @@
-.TH GGIDLE\ VIM\ CONFIGS
+.TH GGIDLE\ VIM\ CONFIGS 7
 
 .SH NAME
 Vim - Vi Improved, GG's IDLE configuration and workflow.
@@ -12,14 +12,19 @@ The settings 'formatoptions' is setted with '+=r', the path with '+=**', the def
 .SH PLUGINS
 The vim-plug plugin manager is installed and the only other plugins are 'ervandew/supertab' (for insert mode completion with tab) and the world-famous 'tpope/vim-commentary'.
 
+.B NOTE:\ 
+the plugins are listed in .vimrc but they
+.B ARE\ NOT
+actually installed because IDLE cannot make Vim installs them with vim-plug. To actually install them, you need to run ':PlugInstall' the first time you launch Vim.
+
 .SH WILDMENU
 Wildmenu is enabled and the wildignore is setted to ignore the defaults and '__pycache__', 'test.txt', 'test*.txt', 'a.out' and 'LICENSE'.
 
 .SH SPLITS
 Splits are setted to below and right for a more natural splitting.
 
-.SH WRAP AND LINEBREAK
-both are only enabled when editing .md, .html, .txt or .ms files
+.SH DOCUMENTS
+Document files, like .ms, .html, .md, etc, uses wrap and linebreak, unlike most source-code files. Also, files ending with .1-7 are considered as man pages, so they'll have the filetype 'groff' and also wrap and linebreak.
 
 .SH KEYBINDS
 
