@@ -27,7 +27,7 @@ The list is separed in:
 .SS DWM COMMON OPERATIONS
 .TP
 .B Super\ +\ a
-spawns dmenu with the dmenu_run script
+spawns dmenu with the dmenu_run wrapper
 .TP
 .B Super\ +\ Enter
 spawns a terminal (default: st). OBS: please DO NOT FUCKING uninstall ST
@@ -48,10 +48,16 @@ rotates master or slave area
 rotates master or slave area (reversed)
 .TP
 .B Super\ +\ Shift\ +\ h
-increases master area
+increases number of windows in master area
 .TP
 .B Super\ +\ Shift\ +\ l
+reduces number of windows in master area
+.TP
+.B Super\ +\ h
 shrinks master area
+.TP
+.B Super\ +\ l
+increases master area
 .TP
 .B Super\ +\ Shift\ +\ Enter
 swaps window with master
@@ -111,9 +117,9 @@ reset window gaps to default value
 toggle window gaps
 .TP
 .B Super\ +\ <NUMBERS\ 1-9>
-toggle view on only the numbered tag
+view only the numbered tag
 .TP
-.B Super\ +\ <NUMBERS\ 1-9>
+.B Super\ +\ Ctrl\ +\ <NUMBERS\ 1-9>
 toggle view on the numbered tag
 .TP
 .B Super\ +\ Shift\ +\ <NUMBERS\ 1-9>
@@ -139,7 +145,7 @@ lists directories in ~/Projects and opens Vim with the $PWD on the dmenu choice
 allow to choose a Qutebrowser quickmark to open in Qutebrowser (also works if type another url, without spaces)
 .TP
 .B Super\ +\ c
-lists directories in ~/Music/**, opens Cmus and start playing the first result of a search with the dmenu choice. Sometimes it simply fail
+lists directories in ~/Music/**, opens Cmus and start playing the first result of a search with the dmenu choice (so lists albums in an artist/album/music.extension directory structure and try to open that name in Cmus). Sometimes it simply fail
 \" }}}
 
 \" LAUNCHERS {{{
