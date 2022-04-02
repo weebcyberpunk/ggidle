@@ -1,0 +1,79 @@
+#!/usr/bin/sh
+
+# author GG weebcyberpunk@gmail.com
+# version 0.0.0
+# since Mar 25, 2022
+
+# installs my enviroment
+# ...
+# nothing more to say about it
+#
+# needs to be run as sudo
+
+# perform full sys upgrade
+echo 'Performing system upgrade...'
+pacman -Syu --noconfirm
+clear
+
+# displays a cool msg
+echo "Welcome to the GG's IDLE installation!"
+echo ''
+
+# CONFIGURE {{{
+
+# username
+echo 'USER SET'
+echo 'Enter the username of the user which will be using IDLE:'
+echo 'If it is an inexistent user, IDLE install will create it.'
+echo "IMPORTANT: If it is an existent user, IDLE will overwrite some config files in user's home directory"
+echo ''
+while :
+do
+	echo -n 'Username: '
+	read USERNAME
+
+	if [ "$USERNAME" == "" ]
+	then
+		echo 'Invalid username.'
+
+	else
+		break
+
+	fi
+done
+echo ''
+
+# wallpapers path
+echo 'WALLPAPERS PATH'
+echo ''
+echo "Enter 0 if you don't want to install IDLE wallpapers."
+echo 'Enter 1 to install them to /usr/share/backgrounds/Wallpapers (recommended, acessible system-wide)'
+echo 'Enter 2 to install them to ~/Pictures/Wallpapers (acessible only for user)'
+echo ''
+while :
+do
+	echo -n 'Wallpapers path: '
+	read WALLPAPERS_PATH
+
+	if [ "$WALLPAPERS_PATH" == "0" ]
+	then
+		echo 'Wallpapers will not be installed.'
+		break
+
+	elif [ "$WALLPAPERS_PATH" == "1" ]
+	then
+		echo 'Wallpapers will be installed on /usr/share/backgrounds/Wallpapers'
+		break
+
+	elif [ "$WALLPAPERS_PATH" == "2" ]
+	then
+		echo 'Wallpapers will be installed on ~/Pictures/Wallpapers'
+		break
+
+	else
+		echo 'Invalid number.'
+	fi
+done
+echo ''
+
+# }}}
