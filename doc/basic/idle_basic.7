@@ -11,7 +11,7 @@ This page explains the basic of how the environment works. For a full list of ke
 
 .SH THE DWM WINDOW MANAGER
 
-The IDLE's desktop environment is built around the suckless' DWM (Dynamic Window Manager). It's recommended to read about the DWM on suckless' website and basics of tilling window managment.
+The IDLE's desktop environment is built around the suckless' DWM (Dynamic Window Manager). It's recommended to read about the DWM on suckless' website and basics of tilling window management.
 
 .SH LAUNCHING AND KILLING
 
@@ -54,11 +54,11 @@ In the right side, you have information about the current music on the Cmus musi
 
 The panel is only auto-updated once a minute, so the time is not minute-accurate. Cmus and the volume keyboard shortcuts have configurations to auto-update the panel on demand, so once the music status or the volume are changed, the panel will update.
 
-The script that updates the panel is the dwmstatus.sh. It have a function status, that outputs to the command xsetroot on the bottom of the script. You may want to hack it to disable some widgets or create your own. Note that every 'echo' command at status need to have the -n flag so it do not output a newline character.
+The script that updates the panel is the dwmstatus.sh. It have a function status, that outputs to the command xsetroot on the bottom of the script. You may want to hack it to disable some widgets or create your own. Note that every 'echo' command at status needs to have the -n flag so it do not output a newline character.
 
 .SH WALLPAPER
 
-Our wallpaper is choosed with Nitrogen. You can choose a wallpaper and it will remember your choice. The install script automatically configure Nitrogen and sets a wallpaper from the GG's collection installed at /usr/share/backgrounds/Wallpapers. This directory is a git repository, and you can update wallpapers with "git pull origin master" (with sudo permission of course, as it's in the root filesystem).
+Our wallpaper is chosen with Nitrogen. You can choose a wallpaper and it will remember your choice. The install script automatically configure Nitrogen and sets a wallpaper from the GG's collection installed at /usr/share/backgrounds/Wallpapers. This directory is a git repository, and you can update wallpapers with "git pull origin master" (with sudo permission of course, as it's in the root filesystem).
 
 To add custom wallpapers, 
 .B DO\ NOT\ 
