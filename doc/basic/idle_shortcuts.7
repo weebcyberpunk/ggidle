@@ -142,7 +142,10 @@ opens record menu (uses ffmpeg to record screen, webcam, microphone, etc, to ~/D
 lists directories in ~/Projects and opens Vim with the $PWD on the dmenu choice
 .TP
 .B Super\ +\ b
-allow to choose a Qutebrowser quickmark to open in Qutebrowser (also works if type another url, without spaces)
+allow to choose a bookmark listed in the file ~/.config/ggidle-bookmarks and opens in the browser defined in $BROWSER
+.TP
+.B Super\ +\ o
+opens a dmenu prompt to type the search args for open in the $BROWSER. You may want to tweak the script ~/.local/bin/dmenu_websearch to work with your browser.
 \" }}}
 
 \" LAUNCHERS {{{
