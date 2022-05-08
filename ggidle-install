@@ -8,72 +8,68 @@
 # ...
 # nothing more to say about it
 #
-# needs to be run as sudo
+# needs to be run as root inside the cloned repo
+
+# prints error msg and exits
+function error {
+	echo "$1"
+	exit 1
+}
 
 # perform full sys upgrade
 echo 'Performing system upgrade...'
-pacman -Syu --noconfirm
-clear
-
-# displays a cool msg
-echo "Welcome to the GG's IDLE installation!"
-echo ''
+pacman -Syu --noconfirm > /dev/null 2>&1 || error "Cannot upgrade system. Are you sure you are running this from an Arch-based GNU/Linux distribution and have internet connection?"
+echo 'Installing dialog to use it during the script'
+pacman -S --needed dialog >> /dev/null
 
 # CONFIGURE {{{
 
 # username
-echo 'USER SET'
-echo 'Enter the username of the user which will be using IDLE:'
-echo 'If it is an inexistent user, IDLE install will create it.'
-echo "IMPORTANT: If it is an existent user, IDLE will overwrite some config files in user's home directory"
-echo ''
-while :
-do
-	echo -n 'Username: '
-	read USERNAME
+USERNAME=$(
+	dialog \
+	--title "Welcome to the GG's IDLE install!" \
+	--inputbox "Please enter the username to user GG's IDLE. If the user don't exists, the script will create it.\n
+If it exists, some config files will be overwritten." \
+	10 60 \
+	3>&1 1>&2 2>&3 3>&1
+)
 
-	if [ "$USERNAME" == "" ]
-	then
-		echo 'Invalid username.'
-
-	else
-		break
-
-	fi
+while ! echo $USERNAME | grep -q "^[a-z_][a-z0-9_-]*$"; do
+	USERNAME=$(
+	dialog \
+	--inputbox "Invalid username. Remember that usernames needs to be only lowercase letters, _ and - and start with a letter" \
+	10 60 \
+	3>&1 1>&2 2>&3 3>&1
+	)
 done
-echo ''
 
 # wallpapers path
-echo 'WALLPAPERS PATH'
-echo ''
-echo "Enter 0 if you don't want to install IDLE wallpapers."
-echo 'Enter 1 to install them to /usr/share/backgrounds/Wallpapers (recommended, acessible system-wide)'
-echo 'Enter 2 to install them to ~/Pictures/Wallpapers (acessible only for user)'
-echo ''
-while :
-do
-	echo -n 'Wallpapers path: '
-	read WALLPAPERS_PATH
+WALLPAPERS_PATH=$(dialog \
+	--menu "Choose directory to install the IDLE wallpapers: " \
+	10 80 80 \
+	"/usr/share/backgrounds/Wallpapers" "Recommended, accessible system-wide" \
+	"~/Pictures/Wallpapers" "Accessible only by the $USERNAME user" \
+	3>&1 1>&2 2>&3 3>&1
+)
 
-	if [ "$WALLPAPERS_PATH" == "0" ]
-	then
-		echo 'Wallpapers will not be installed.'
-		break
+# }}}
 
-	elif [ "$WALLPAPERS_PATH" == "1" ]
-	then
-		echo 'Wallpapers will be installed on /usr/share/backgrounds/Wallpapers'
-		break
+# MAKE {{{
+exit
+if [ "$(cat /etc/passwd | grep $USERNAME)" == "" ]
+then
+	echo "Detected that user $USERNAME don't exist."
+	echo "GG's IDLE will create user $USERNAME."
+	echo -n "CONTINUE? [y/N] "
+	read CONTINUE
+	if [ "CONTINUE" != "y" ]
+	useradd -m -G games,floppy,scanner,video,storage,optical,input,disk,wheel $USERNAME
+	echo "Enter password for the new user: "
+	passwd $USERNAME
 
-	elif [ "$WALLPAPERS_PATH" == "2" ]
-	then
-		echo 'Wallpapers will be installed on ~/Pictures/Wallpapers'
-		break
-
-	else
-		echo 'Invalid number.'
-	fi
-done
-echo ''
+else
+	echo "Detected that user $USERNAME EXISTS. The IDLE install script will override some config files of the user."
+	echo -n "CONTINUE? [y/N] "
+	if [ $(read)]
 
 # }}}
