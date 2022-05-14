@@ -9,6 +9,8 @@
 # nothing more to say about it
 #
 # needs to be run as root inside the cloned repo
+#
+# dependencies: git and dialog
 
 #
 # Copyright 2022 © GG
@@ -107,8 +109,6 @@ function colorscheme {
 function sysupgrade {
 	echo 'Performing full system upgrade...'
 	pacman -Syu --noconfirm || error "Cannot upgrade system. Are you sure you are running this from an Arch-based GNU/Linux distribution, is root and have internet connection?"
-	echo 'Installing dialog to use it during the script'
-	pacman -S --needed --noconfirm dialog > /dev/null 2>&1
 }
 
 sysupgrade
