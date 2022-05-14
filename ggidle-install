@@ -10,6 +10,28 @@
 #
 # needs to be run as root inside the cloned repo
 
+#
+# Copyright 2022 © GG
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy of 
+# this software and associated documentation files (the “Software”), to deal 
+# in the Software without restriction, including without limitation the rights to 
+# use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies 
+# of the Software, and to permit persons to whom the Software is furnished to do 
+# so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in all 
+# copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
+# SOFTWARE.
+# 
+
 # LIB {{{
 # prints error msg and exits
 function error {
@@ -25,9 +47,9 @@ function error {
 function getusername {
 	USERNAME=$(
 		dialog \
-		--title "User config" \
-		--inputbox "Please enter the username to user GG's IDLE. If the user don't exists, the script will create it.\n
-	If it exists, some config files will be overwritten." \
+		--title "Welcome to the GG's IDLE installation!" \
+		--inputbox "Please enter the username to the user which will use GG's IDLE. If the user don't exists, the script will create it.\n
+If it exists, some config files will be overwritten." \
 		0 0 \
 		3>&1 1>&2 2>&3 3>&1
 	)
@@ -52,11 +74,27 @@ function getusername {
 
 # wallpapers path
 function wallpapersconfig {
-	WALLPAPERS_PATH=$(dialog \
+	WALLPAPERS_PATH=$(
+		dialog \
 		--menu "Choose directory to install the IDLE wallpapers: " \
 		0 0 0 \
 		"/usr/share/backgrounds/Wallpapers" "Recommended, accessible system-wide" \
 		"~/Pictures/Wallpapers" "Accessible only by the $USERNAME user" \
+		3>&1 1>&2 2>&3 3>&1
+	)
+
+	if [ "$WALLPAPERS_PATH" == "" ]
+	then
+		error "User exited"
+	fi
+}
+
+function colorscheme {
+	COLORSCHEME=$(dialog \
+		--menu "Choose the colorscheme to use in IDLE: " \
+		0 0 0 \
+		"Dracula" "Maybe the default choice" \
+		"Catppuccin Pink" "GG's choice, a cute and pinky colorscheme" \
 		3>&1 1>&2 2>&3 3>&1
 	)
 }
@@ -68,13 +106,17 @@ function wallpapersconfig {
 # perform full sys upgrade
 function sysupgrade {
 	echo 'Performing full system upgrade...'
-	pacman -Syu --noconfirm > /dev/null 2>&1 || error "Cannot upgrade system. Are you sure you are running this from an Arch-based GNU/Linux distribution, is root and have internet connection?"
+	pacman -Syu --noconfirm || error "Cannot upgrade system. Are you sure you are running this from an Arch-based GNU/Linux distribution, is root and have internet connection?"
 	echo 'Installing dialog to use it during the script'
 	pacman -S --needed --noconfirm dialog > /dev/null 2>&1
 }
 
-# }}}
-
 sysupgrade
 getusername
 wallpapersconfig
+colorscheme
+
+# }}}
+
+# INSTALL {{{
+# }}}
