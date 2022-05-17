@@ -48,7 +48,7 @@ function error {
 # username
 function getusername {
 	USERNAME=$(
-		dialog \
+		dialog --no-cancel \
 		--title "Welcome to the GG's IDLE installation!" \
 		--inputbox "Please enter the username to the user which will use GG's IDLE. If the user don't exists, the script will create it.\n
 If it exists, some config files will be overwritten." \
@@ -62,7 +62,7 @@ If it exists, some config files will be overwritten." \
 
 	while ! echo $USERNAME | grep -q "^[a-z_][a-z0-9_-]*$"; do
 		USERNAME=$(
-		dialog \
+		dialog --no-cancel \
 		--inputbox "Invalid username. Remember that usernames needs to be only lowercase letters, _ and - and start with a letter" \
 		0 0 \
 		3>&1 1>&2 2>&3 3>&1
@@ -77,7 +77,7 @@ If it exists, some config files will be overwritten." \
 # wallpapers path
 function wallpapersconfig {
 	WALLPAPERS_PATH=$(
-		dialog \
+		dialog --no-cancel \
 		--menu "Choose directory to install the IDLE wallpapers: " \
 		0 0 0 \
 		"/usr/share/backgrounds/Wallpapers" "Recommended, accessible system-wide" \
@@ -91,8 +91,10 @@ function wallpapersconfig {
 	fi
 }
 
+# colorscheme
 function colorscheme {
-	COLORSCHEME=$(dialog \
+	COLORSCHEME=$(
+		dialog --no-cancel \
 		--menu "Choose the colorscheme to use in IDLE: " \
 		0 0 0 \
 		"Dracula" "Maybe the default choice" \
