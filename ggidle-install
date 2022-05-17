@@ -132,12 +132,13 @@ if [ "$1" != "--test" ]
 then 
 	sysupgrade
 fi
+# }}}
+
+# INSTALL {{{
+
+# }}}
+
 getusername
 wallpapersconfig
 colorscheme
 add_config
-
-# }}}
-
-# INSTALL {{{
-# }}}
