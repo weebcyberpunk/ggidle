@@ -103,6 +103,19 @@ function colorscheme {
 	)
 }
 
+# additional configs/installs: (Neo)Vim, Zathura, NCMCPP
+function add_config {
+	ADD_CONFIG=$(
+		dialog --no-cancel \
+		--checklist "Select additional configs to install: " \
+		0 0 0 \
+		"Neovim" "Neovim" "GG's configs to make Neovim become a terminal-based IDE" \
+		"Zathura" "Zathura" "IDLE configs to the Zathura PDF reader" \
+		"NCMPCPP" "NCMPCPP" "IDLE configs for the NCurses Music Player Client (Plus Plus)" \
+		3>&1 1>&2 2>&3 3>&1
+	)
+}
+
 # }}}
 
 # MAKE {{{
@@ -113,10 +126,16 @@ function sysupgrade {
 	pacman -Syu --noconfirm || error "Cannot upgrade system. Are you sure you are running this from an Arch-based GNU/Linux distribution, is root and have internet connection?"
 }
 
-sysupgrade
+# --test is only meant to be runned on developing, but I will commit that anyway
+# the flag will make all sudo and install features to be skipped
+if [ "$1" != "--test" ] 
+then 
+	sysupgrade
+fi
 getusername
 wallpapersconfig
 colorscheme
+add_config
 
 # }}}
 
