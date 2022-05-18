@@ -11,6 +11,8 @@
 # needs to be run as root inside the cloned repo
 #
 # dependencies: git and dialog
+# also, the enviroment itself will need you to have installed xorg and sudo
+# before running the script
 
 #
 # Copyright 2022 © GG
