@@ -126,19 +126,73 @@ function sysupgrade {
 	pacman -Syu --noconfirm || error "Cannot upgrade system. Are you sure you are running this from an Arch-based GNU/Linux distribution, is root and have internet connection?"
 }
 
-# --test is only meant to be runned on developing, but I will commit that anyway
-# the flag will make all sudo and install features to be skipped
-if [ "$1" != "--test" ] 
-then 
-	sysupgrade
-fi
+function createuser {
+	PASS=$(
+		dialog --passwordbox \
+		"Detected that $USERNAME does not exists. To create it, please enter the new user password: " \
+		0 0 \
+		3>&1 1>&2 2>&3 3>&1
+	)
+	PASS_AGAIN=$(
+		dialog --passwordbox \
+		"Retype password for confirmation: " \
+		0 0 \
+		3>&1 1>&2 2>&3 3>&1
+	)
+	if [ "$IS_TEST" != "true" ]
+	then
+		useradd -m -G games floppy scanner storage optical kvm input disk wheel $USERNAME
+	fi
+
+	while [ "$PASS" != "$PASS_AGAIN" ]
+	do
+		unset PASS_AGAIN
+		PASS=$(
+			dialog --passwordbox \
+			"Passwords don't match. Please enter again: " \
+			0 0 \
+			3>&1 1>&2 2>&3 3>&1
+		)
+		PASS_AGAIN=$(
+			dialog --passwordbox \
+			"Retype: " \
+			0 0 \
+			3>&1 1>&2 2>&3 3>&1
+		)
+	done
+
+	if [ "$IS_TEST" != "true" ]
+	then
+		echo "$USERNAME:$PASS" | chpasswd
+	fi
+
+	unset PASS
+	unset PASS_AGAIN
+}
+
+# check if user exists. if y, do nothing. if n, creates it
+function checkuser {
+	id -u $USERNAME > /dev/null || createuser
+}
+
 # }}}
 
 # INSTALL {{{
 
 # }}}
 
+IS_TEST="true"
+
+# --test is only meant to be runned on developing, but I will commit that anyway
+# the flag will make all sudo and install features to be skipped
+if [ "$1" != "--test" ] 
+then 
+	IS_TEST="false"
+	sysupgrade
+fi
+
 getusername
 wallpapersconfig
 colorscheme
 add_config
+checkuser
