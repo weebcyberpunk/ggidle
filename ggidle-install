@@ -118,6 +118,19 @@ function add_config {
 	)
 }
 
+# terminal build
+function whichterm {
+	WHICH_TERM=$(
+		dialog --no-cancel \
+		--menu "Choose the ST terminal build you want to use: " \
+		0 0 0 \
+		"Default" "Default plain background" \
+		"Background image" "ST with an image (in farbfeld format) as background" \
+		"Transparent" "ST with transparent background" \
+		3>&1 1>&2 2>&3 3>&1
+	)
+}
+
 # }}}
 
 # MAKE {{{
@@ -130,13 +143,15 @@ function sysupgrade {
 
 function createuser {
 	PASS=$(
-		dialog --passwordbox \
+		dialog --no-cancel \
+		--passwordbox \
 		"Detected that $USERNAME does not exists. To create it, please enter the new user password: " \
 		0 0 \
 		3>&1 1>&2 2>&3 3>&1
 	)
 	PASS_AGAIN=$(
-		dialog --passwordbox \
+		dialog --no-cancel \
+		--passwordbox \
 		"Retype password for confirmation: " \
 		0 0 \
 		3>&1 1>&2 2>&3 3>&1
@@ -150,13 +165,13 @@ function createuser {
 	do
 		unset PASS_AGAIN
 		PASS=$(
-			dialog --passwordbox \
+			dialog --passwordbox --no-cancel \
 			"Passwords don't match. Please enter again: " \
 			0 0 \
 			3>&1 1>&2 2>&3 3>&1
 		)
 		PASS_AGAIN=$(
-			dialog --passwordbox \
+			dialog --passwordbox --no-cancel \
 			"Retype: " \
 			0 0 \
 			3>&1 1>&2 2>&3 3>&1
@@ -197,4 +212,5 @@ getusername
 wallpapersconfig
 colorscheme
 add_config
+whichterm
 checkuser
