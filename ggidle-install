@@ -10,7 +10,7 @@
 #
 # needs to be run as root inside the cloned repo
 #
-# dependencies: git and dialog
+# dependencies: git, dialog and the base-devel metapack
 # also, the enviroment itself will need you to have installed xorg and sudo
 # before running the script
 
@@ -186,7 +186,39 @@ function checkuser {
 # }}}
 
 # INSTALL {{{
+# install the yay aur helper
+function yay_install {
+	dialog --infobox "Installing the Yay AUR helper..." 0 0 3>&1 1>&2 2>&3 3>&1
+	if [ "$IS_TEST" == "false" ]
+	then
+		git clone https://aur.archlinux.org/yay-bin.git
+		cd yay-bin
+		makepkg
+		pacman -U yay*.pkg.tar.zst
+		cd ..
+		rm -rf yay-bin
+	else
+		sleep 5s
+	fi
+}
 
+function programs_install {
+	dialog --infobox "Installing programs from repo's progs file..." 0 0 3>&1 1>&2 2>&3 3>&1
+	pacman -S --needed $(cat repo-progs) > /tmp/ggidle-pac-log || error "error installing programs with pacman, see logs at /tmp/ggidle-pac-log"
+
+	if [ "$IS_TEST" == "true" ]
+	then
+		sleep 5s
+	fi
+
+	dialog --infobox "Installing programs from aur's progs file..." 0 0 3>&1 1>&2 2>&3 3>&1
+	yay -S --needed $(cat aur-progs) > /tmp/ggidle-yay-log || error "error installing programs with yay, see logs at /tmp/ggidle-yay-log"
+
+	if [ "$IS_TEST" == "true" ]
+	then
+		sleep 5s
+	fi
+}
 # }}}
 
 IS_TEST="true"
@@ -199,8 +231,15 @@ then
 	sysupgrade
 fi
 
+# checks if dependencies are installed
+git     --version || error "Cannot run git! Please install all dependencies before running the install script!"
+dialog  --version || error "Cannot run dialog! Please install all dependencies before running the install script!"
+makepkg --version || error "Cannot run makepkg! Please install all dependencies before running the install script!"
+
 getusername
 wallpapersconfig
 add_config
 whichterm
 checkuser
+yay_install
+programs_install
