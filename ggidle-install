@@ -93,15 +93,18 @@ function wallpapersconfig {
 	fi
 }
 
-# additional configs/installs: (Neo)Vim, Zathura, NCMCPP
+# additional configs/installs: (Neo)Vim, Zathura, tmux, cava, mutt, htop
 function add_config {
 	ADD_CONFIG=$(
 		dialog --no-cancel \
 		--checklist "Select additional configs to install: " \
 		0 0 0 \
-		"Neovim" "Neovim" "GG's configs to make Neovim become a terminal-based IDE" \
-		"Zathura" "Zathura" "IDLE configs to the Zathura PDF reader" \
-		"NCMPCPP" "NCMPCPP" "IDLE configs for the NCurses Music Player Client (Plus Plus)" \
+		"NyanVim" "GG's configs to make Neovim become a terminal-based IDE" "nvim" \
+		"Zathura" "IDLE configs to the Zathura PDF reader" "zathura" \
+		"tmux" "IDLE configs for the tmux multiplexer" "tmux" \
+		"cava" "IDLE configs for the cava audio visualizer" "cava" \
+		"Neomutt" "IDLE sample for the Neomutt email client" "mutt" \
+		"htop" "IDLE configs for the htop task manager" "htop" \
 		3>&1 1>&2 2>&3 3>&1
 	)
 }
