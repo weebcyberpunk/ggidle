@@ -93,18 +93,6 @@ function wallpapersconfig {
 	fi
 }
 
-# colorscheme
-function colorscheme {
-	COLORSCHEME=$(
-		dialog --no-cancel \
-		--menu "Choose the colorscheme to use in IDLE: " \
-		0 0 0 \
-		"Dracula" "Maybe the default choice" \
-		"Catppuccin Pink" "GG's choice, a cute and pinky colorscheme" \
-		3>&1 1>&2 2>&3 3>&1
-	)
-}
-
 # additional configs/installs: (Neo)Vim, Zathura, NCMCPP
 function add_config {
 	ADD_CONFIG=$(
@@ -210,7 +198,6 @@ fi
 
 getusername
 wallpapersconfig
-colorscheme
 add_config
 whichterm
 checkuser
