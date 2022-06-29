@@ -38,9 +38,9 @@
 
 # vars
 REMOTE_LINK="https://www.github.com/weebcyberpunk/"
-SUCKLESS_BUILDS_URL="$(REMOTE_LINK)suckless"
-DOTS_URL="$(REMOTE_LINK)home"
-VIM_URL="$(REMOTE_LINK)nyanvim"
+SUCKLESS_BUILDS_URL="$REMOTE_LINKsuckless"
+DOTS_URL="$REMOTE_LINKhome"
+VIM_URL="$REMOTE_LINKnyanvim"
 
 # LIB {{{
 # prints error msg and exits
@@ -232,19 +232,19 @@ function programs_install {
 	then
 		sleep 5s
 	else
-		mkdir -p "$(INSTALL_PATH)/.local/share/"
-		git clone "$SUCKLESS_BUILDS_URL" "$(INSTALL_PATH)/.local/share/suckless"
+		mkdir -p "$INSTALL_PATH/.local/share/"
+		git clone "$SUCKLESS_BUILDS_URL" "$INSTALL_PATH/.local/share/suckless"
 		DIR=$(pwd)
-		cd "$(INSTALL_PATH)/.local/share/suckless/dwm"
+		cd "$INSTALL_PATH/.local/share/suckless/dwm"
 
 		# set correct home before install
-		sed -i "s/#define SCRIPTS_HOME \/home\/gg\/\.local\/bin/#define SCRIPTS_HOME \/home\/$(USERNAME)\/\.local\/bin" config.def.h
-		sed -i "s/#define SCRIPTS_HOME \/home\/gg\/\.local\/bin/#define SCRIPTS_HOME \/home\/$(USERNAME)\/\.local\/bin" config.h
+		sed -i "s/#define SCRIPTS_HOME \/home\/gg\/\.local\/bin/#define SCRIPTS_HOME \/home\/$USERNAME\/\.local\/bin" config.def.h
+		sed -i "s/#define SCRIPTS_HOME \/home\/gg\/\.local\/bin/#define SCRIPTS_HOME \/home\/$USERNAME\/\.local\/bin" config.h
 
 		make install
-		cd "$(INSTALL_PATH)/.local/share/suckless/dmenu"
+		cd "$INSTALL_PATH/.local/share/suckless/dmenu"
 		make install
-		cd "$(INSTALL_PATH)/.local/share/suckless/$WHICH_TERM"
+		cd "$INSTALL_PATH/.local/share/suckless/$WHICH_TERM"
 		make install
 		cd $DIR
 		unset DIR
@@ -255,43 +255,43 @@ function configs_install {
 
 	dialog --infobox "Installing configs" 0 0 3>&1 1>&2 2>&3 3>&1
 
-	mkdir -p "$(INSTALL_PATH)/.config"
-	mkdir -p "$(INSTALL_PATH)/.local/share"
-	mkdir -p "$(INSTALL_PATH)/.local/bin"
-	mkdir -p "$(INSTALL_PATH)/.icons"
+	mkdir -p "$INSTALL_PATH/.config"
+	mkdir -p "$INSTALL_PATH/.local/share"
+	mkdir -p "$INSTALL_PATH/.local/bin"
+	mkdir -p "$INSTALL_PATH/.icons"
 	git clone --depth 1 "$DOTS_URL" "dots"
 	cd dots
-	cp -r .config/{dunst,galculator,gtk-*,lf,mpd,ncmpcpp,nitrogen,picom,zsh,user-dirs*} "$(INSTALL_PATH)/.config/"
+	cp -r .config/{dunst,galculator,gtk-*,lf,mpd,ncmpcpp,nitrogen,picom,zsh,user-dirs*} "$INSTALL_PATH/.config/"
 
 	# set permissions for lf file
-	chmod +x "$(INSTALL_PATH)/.config/lf/scope"
+	chmod +x "$INSTALL_PATH/.config/lf/scope"
 
-	cp -r .local/share/* "$(INSTALL_PATH)/.local/share/"
-	chmod +x .local/bin/* && cp -r .local/bin/* "$(INSTALL_PATH)/.local/bin/"
-	cp -r .icons/* "$(INSTALL_PATH)/.icons"
-	cp .xprofile "$(INSTALL_PATH)"
-	cp .zshenv "$(INSTALL_PATH)"
+	cp -r .local/share/* "$INSTALL_PATH/.local/share/"
+	chmod +x .local/bin/* && cp -r .local/bin/* "$INSTALL_PATH/.local/bin/"
+	cp -r .icons/* "$INSTALL_PATH/.icons"
+	cp .xprofile "$INSTALL_PATH"
+	cp .zshenv "$INSTALL_PATH"
 
 	# add_config
 	if [ "Zathura" in $ADD_CONFIG ]
 	then
-		cp -r .config/zathura "$(INSTALL_PATH)/.config/"
+		cp -r .config/zathura "$INSTALL_PATH/.config/"
 	fi
 	if [ "tmux" in $ADD_CONFIG ]
 	then
-		cp -r .config/tmux "$(INSTALL_PATH)/.config/"
+		cp -r .config/tmux "$INSTALL_PATH/.config/"
 	fi
 	if [ "cava" in $ADD_CONFIG ]
 	then
-		cp -r .config/cava "$(INSTALL_PATH)/.config/"
+		cp -r .config/cava "$INSTALL_PATH/.config/"
 	fi
 	if [ "htop" in $ADD_CONFIG ]
 	then
-		cp -r .config/htop "$(INSTALL_PATH)/.config/"
+		cp -r .config/htop "$INSTALL_PATH/.config/"
 	fi
 	if [ "NyanVim" in $ADD_CONFIG ]
 	then
-		git clone $VIM_URL "$(INSTALL_PATH)/.config/nvim"
+		git clone $VIM_URL "$INSTALL_PATH/.config/nvim"
 	fi
 	if [ "lightdm" in $ADD_CONFIG ]
 	then
