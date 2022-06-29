@@ -36,6 +36,12 @@
 # SOFTWARE.
 # 
 
+# vars
+REMOTE_LINK="https://www.github.com/weebcyberpunk/"
+SUCKLESS_BUILDS_URL="$(REMOTE_LINK)suckless"
+DOTS_URL="$(REMOTE_LINK)home"
+VIM_URL="$(REMOTE_LINK)nyanvim"
+
 # LIB {{{
 # prints error msg and exits
 function error {
@@ -115,8 +121,8 @@ function whichterm {
 		dialog --no-cancel \
 		--menu "Choose the ST terminal build you want to use: " \
 		0 0 0 \
-		"Default" "Default plain background" \
-		"Transparent" "ST with transparent background" \
+		"st" "Default plain background" \
+		"st-transparent" "ST with transparent background" \
 		3>&1 1>&2 2>&3 3>&1
 	)
 }
@@ -219,6 +225,70 @@ function programs_install {
 	else
 		yay -S --needed $(cat aur-progs) > /tmp/ggidle-yay-log || error "error installing programs with yay, see logs at /tmp/ggidle-yay-log"
 	fi
+
+	dialog --infobox "Installing suckless software" 0 0 3>&1 1>&2 2>&3 3>&1
+
+	if [ "$IS_TEST" == "true" ]
+	then
+		sleep 5s
+	else
+		mkdir -p "$(INSTALL_PATH)/.local/share/"
+		git clone "$SUCKLESS_BUILDS_URL" "$(INSTALL_PATH)/.local/share/suckless"
+		DIR=$(pwd)
+		cd "$(INSTALL_PATH)/.local/share/suckless/dwm"
+		make install
+		cd "$(INSTALL_PATH)/.local/share/suckless/dmenu"
+		make install
+		cd "$(INSTALL_PATH)/.local/share/suckless/$WHICH_TERM"
+		make install
+		cd $DIR
+		unset DIR
+	fi
+}
+
+function configs_install {
+	mkdir -p "$(INSTALL_PATH)/.config"
+	mkdir -p "$(INSTALL_PATH)/.local/share"
+	mkdir -p "$(INSTALL_PATH)/.local/bin"
+	mkdir -p "$(INSTALL_PATH)/.icons"
+	git clone --depth 1 "$DOTS_URL" "dots"
+	cd dots
+	cp -r .config/{dunst,galculator,gtk-*,lf,mpd,ncmpcpp,nitrogen,picom,zsh,user-dirs*} "$(INSTALL_PATH)/.config/"
+	cp -r .local/share/* "$(INSTALL_PATH)/.local/share/"
+	cp -r .local/bin/* "$(INSTALL_PATH)/.local/bin/"
+	cp -r .icons/* "$(INSTALL_PATH)/.icons"
+	cp .xprofile "$(INSTALL_PATH)"
+	cp .zshenv "$(INSTALL_PATH)"
+
+	# add_config
+	if [ "Zathura" in $ADD_CONFIG ]
+	then
+		cp -r .config/zathura "$(INSTALL_PATH)/.config/"
+	fi
+	if [ "tmux" in $ADD_CONFIG ]
+	then
+		cp -r .config/tmux "$(INSTALL_PATH)/.config/"
+	fi
+	if [ "cava" in $ADD_CONFIG ]
+	then
+		cp -r .config/cava "$(INSTALL_PATH)/.config/"
+	fi
+	if [ "htop" in $ADD_CONFIG ]
+	then
+		cp -r .config/htop "$(INSTALL_PATH)/.config/"
+	fi
+	if [ "NyanVim" in $ADD_CONFIG ]
+	then
+		git clone $VIM_URL "$(INSTALL_PATH)/.config/nvim"
+	fi
+	if [ "lightdm" in $ADD_CONFIG ]
+	then
+		yay -S lightdm lightdm-mini-greeter
+		cp others/lightdm/* /etc/lightdm
+	fi
+	cd ..
+
+	xdg-user-dirs-update
 }
 # }}}
 
@@ -238,9 +308,11 @@ dialog  --version || error "Cannot run dialog! Please install all dependencies b
 makepkg --version || error "Cannot run makepkg! Please install all dependencies before running the install script!"
 
 getusername
+checkuser
+INSTALL_PATH="/home/$USERNAME/"
 wallpapersconfig
 add_config
 whichterm
-checkuser
 yay_install
 programs_install
+configs_install
