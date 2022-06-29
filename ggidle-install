@@ -88,8 +88,8 @@ function wallpapersconfig {
 		dialog --no-cancel \
 		--menu "Choose directory to install the IDLE wallpapers: " \
 		0 0 0 \
-		"/usr/share/backgrounds/Wallpapers" "Recommended, accessible system-wide" \
-		"~/Pictures/Wallpapers" "Accessible only by the $USERNAME user" \
+		"/usr/share/backgrounds/Wallpapers" "Recommended, accessible system-wide and with automagically wallpaper setup" \
+		"~/Pictures/Wallpapers" "Accessible only by the $USERNAME user and without automagically setup" \
 		3>&1 1>&2 2>&3 3>&1
 	)
 
@@ -236,6 +236,11 @@ function programs_install {
 		git clone "$SUCKLESS_BUILDS_URL" "$(INSTALL_PATH)/.local/share/suckless"
 		DIR=$(pwd)
 		cd "$(INSTALL_PATH)/.local/share/suckless/dwm"
+
+		# set correct home before install
+		sed -i "s/#define SCRIPTS_HOME \/home\/gg\/\.local\/bin/#define SCRIPTS_HOME \/home\/$(USERNAME)\/\.local\/bin" config.def.h
+		sed -i "s/#define SCRIPTS_HOME \/home\/gg\/\.local\/bin/#define SCRIPTS_HOME \/home\/$(USERNAME)\/\.local\/bin" config.h
+
 		make install
 		cd "$(INSTALL_PATH)/.local/share/suckless/dmenu"
 		make install
@@ -247,6 +252,9 @@ function programs_install {
 }
 
 function configs_install {
+
+	dialog --infobox "Installing configs" 0 0 3>&1 1>&2 2>&3 3>&1
+
 	mkdir -p "$(INSTALL_PATH)/.config"
 	mkdir -p "$(INSTALL_PATH)/.local/share"
 	mkdir -p "$(INSTALL_PATH)/.local/bin"
@@ -254,8 +262,12 @@ function configs_install {
 	git clone --depth 1 "$DOTS_URL" "dots"
 	cd dots
 	cp -r .config/{dunst,galculator,gtk-*,lf,mpd,ncmpcpp,nitrogen,picom,zsh,user-dirs*} "$(INSTALL_PATH)/.config/"
+
+	# set permissions for lf file
+	chmod +x "$(INSTALL_PATH)/.config/lf/scope"
+
 	cp -r .local/share/* "$(INSTALL_PATH)/.local/share/"
-	cp -r .local/bin/* "$(INSTALL_PATH)/.local/bin/"
+	chmod +x .local/bin/* && cp -r .local/bin/* "$(INSTALL_PATH)/.local/bin/"
 	cp -r .icons/* "$(INSTALL_PATH)/.icons"
 	cp .xprofile "$(INSTALL_PATH)"
 	cp .zshenv "$(INSTALL_PATH)"
