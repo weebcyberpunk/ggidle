@@ -103,8 +103,8 @@ function add_config {
 		"Zathura" "IDLE configs to the Zathura PDF reader" "zathura" \
 		"tmux" "IDLE configs for the tmux multiplexer" "tmux" \
 		"cava" "IDLE configs for the cava audio visualizer" "cava" \
-		"Neomutt" "IDLE sample for the Neomutt email client" "mutt" \
 		"htop" "IDLE configs for the htop task manager" "htop" \
+		"lightdm" "You probably don't want it if you already have a display manager" "lightdm" \
 		3>&1 1>&2 2>&3 3>&1
 	)
 }
@@ -116,7 +116,6 @@ function whichterm {
 		--menu "Choose the ST terminal build you want to use: " \
 		0 0 0 \
 		"Default" "Default plain background" \
-		"Background image" "ST with an image (in farbfeld format) as background" \
 		"Transparent" "ST with transparent background" \
 		3>&1 1>&2 2>&3 3>&1
 	)
@@ -204,19 +203,21 @@ function yay_install {
 
 function programs_install {
 	dialog --infobox "Installing programs from repo's progs file..." 0 0 3>&1 1>&2 2>&3 3>&1
-	pacman -S --needed $(cat repo-progs) > /tmp/ggidle-pac-log || error "error installing programs with pacman, see logs at /tmp/ggidle-pac-log"
 
 	if [ "$IS_TEST" == "true" ]
 	then
 		sleep 5s
+	else
+		pacman -S --needed $(cat repo-progs) > /tmp/ggidle-pac-log || error "error installing programs with pacman, see logs at /tmp/ggidle-pac-log"
 	fi
 
 	dialog --infobox "Installing programs from aur's progs file..." 0 0 3>&1 1>&2 2>&3 3>&1
-	yay -S --needed $(cat aur-progs) > /tmp/ggidle-yay-log || error "error installing programs with yay, see logs at /tmp/ggidle-yay-log"
 
 	if [ "$IS_TEST" == "true" ]
 	then
 		sleep 5s
+	else
+		yay -S --needed $(cat aur-progs) > /tmp/ggidle-yay-log || error "error installing programs with yay, see logs at /tmp/ggidle-yay-log"
 	fi
 }
 # }}}
