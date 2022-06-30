@@ -196,16 +196,15 @@ function checkuser {
 # yay
 function yay_install {
 	dialog --infobox "Installing the Yay AUR helper..." 0 0 3>&1 1>&2 2>&3 3>&1
-	if [ "$IS_TEST" == "false" ]
+	if [ "$IS_TEST" == "true" ]
 	then
+		sleep 5s
+	else
 		git clone https://aur.archlinux.org/yay-bin.git
 		cd yay-bin
-		makepkg
-		pacman -U yay*.pkg.tar.zst
+		sudo -u $USERNAME makepkg --noconfirm -si
 		cd ..
 		rm -rf yay-bin
-	else
-		sleep 5s
 	fi
 }
 
@@ -216,7 +215,7 @@ function programs_install {
 	then
 		sleep 5s
 	else
-		pacman -S --needed $(cat repo-progs) > /tmp/ggidle-pac-log || error "error installing programs with pacman, see logs at /tmp/ggidle-pac-log"
+		pacman -S --needed --noconfirm $(cat repo-progs) >> /tmp/ggidle-pac-log || error "error installing programs with pacman, see logs at /tmp/ggidle-pac-log"
 	fi
 
 	dialog --infobox "Installing programs from aur's progs file..." 0 0 3>&1 1>&2 2>&3 3>&1
@@ -226,7 +225,7 @@ function programs_install {
 		sleep 5s
 	else
 		# TODO fix this (see yay-install func)
-		yay -S --needed $(cat aur-progs) > /tmp/ggidle-yay-log || error "error installing programs with yay, see logs at /tmp/ggidle-yay-log"
+		yay -S --needed $(cat aur-progs) >> /tmp/ggidle-yay-log || error "error installing programs with yay, see logs at /tmp/ggidle-yay-log"
 	fi
 
 	dialog --infobox "Installing suckless software" 0 0 3>&1 1>&2 2>&3 3>&1
