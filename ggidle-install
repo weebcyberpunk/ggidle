@@ -192,6 +192,8 @@ function checkuser {
 
 # INSTALL {{{
 # install the yay aur helper
+# TODO for some unknown reason this installs but later it the script cannot run
+# yay
 function yay_install {
 	dialog --infobox "Installing the Yay AUR helper..." 0 0 3>&1 1>&2 2>&3 3>&1
 	if [ "$IS_TEST" == "false" ]
@@ -223,6 +225,7 @@ function programs_install {
 	then
 		sleep 5s
 	else
+		# TODO fix this (see yay-install func)
 		yay -S --needed $(cat aur-progs) > /tmp/ggidle-yay-log || error "error installing programs with yay, see logs at /tmp/ggidle-yay-log"
 	fi
 
@@ -295,7 +298,7 @@ function configs_install {
 	fi
 	if [ "lightdm" in $ADD_CONFIG ]
 	then
-		yay -S lightdm lightdm-mini-greeter
+		pacman -S lightdm lightdm-gkt-greeter
 		cp others/lightdm/* /etc/lightdm
 	fi
 	cd ..
