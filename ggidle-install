@@ -10,7 +10,7 @@
 #
 # needs to be run as root inside the cloned repo
 #
-# dependencies: git, dialog, the yay aur helper and the base-devel metapack
+# dependencies: git, dialog, the yay aur helper, unzip and the base-devel metapack
 # also, the enviroment itself will need you to have installed xorg and sudo
 # before running the script
 
@@ -256,6 +256,10 @@ function configs_install {
 	cp -r .icons/* "$INSTALL_PATH/.icons"
 	cp .xprofile "$INSTALL_PATH"
 	cp .zshenv "$INSTALL_PATH"
+
+	# catppuccin cursors
+	wget https://github.com/catppuccin/cursors/raw/main/cursors/Catppuccin-Mocha-Sky-Cursors.zip
+	unzip Catppuccin-Mocha-Sky-Cursors.zip -d $INSTALL_PATH/.icons/
 
 	# add_config
 	if [ "Zathura" in $ADD_CONFIG ]
