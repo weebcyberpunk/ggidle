@@ -10,7 +10,7 @@
 #
 # needs to be run as root inside the cloned repo
 #
-# dependencies: git, dialog and the base-devel metapack
+# dependencies: git, dialog, the yay aur helper and the base-devel metapack
 # also, the enviroment itself will need you to have installed xorg and sudo
 # before running the script
 
@@ -191,23 +191,6 @@ function checkuser {
 # }}}
 
 # INSTALL {{{
-# install the yay aur helper
-# TODO for some unknown reason this installs but later it the script cannot run
-# yay
-function yay_install {
-	dialog --infobox "Installing the Yay AUR helper..." 0 0 3>&1 1>&2 2>&3 3>&1
-	if [ "$IS_TEST" == "true" ]
-	then
-		sleep 5s
-	else
-		git clone https://aur.archlinux.org/yay-bin.git
-		cd yay-bin
-		sudo -u $USERNAME makepkg --noconfirm -si
-		cd ..
-		rm -rf yay-bin
-	fi
-}
-
 function programs_install {
 	dialog --infobox "Installing programs from repo's progs file..." 0 0 3>&1 1>&2 2>&3 3>&1
 
@@ -308,6 +291,13 @@ function configs_install {
 
 IS_TEST="true"
 
+# checks if dependencies are installed
+git     --version || error "Cannot run git! Please install all dependencies before running the install script!"
+dialog  --version || error "Cannot run dialog! Please install all dependencies before running the install script!"
+makepkg --version || error "Cannot run makepkg! Please install all dependencies before running the install script!"
+yay 	--version || error "Cannot run yay! Please install all dependencies before running the install script!"
+pacman -Q xorg	  || error "The X server is not installed! Please install all dependencies before running the install script!"
+
 # --test is only meant to be runned on developing, but I will commit that anyway
 # the flag will make all sudo and install features to be skipped
 if [ "$1" != "--test" ] 
@@ -316,17 +306,11 @@ then
 	sysupgrade
 fi
 
-# checks if dependencies are installed
-git     --version || error "Cannot run git! Please install all dependencies before running the install script!"
-dialog  --version || error "Cannot run dialog! Please install all dependencies before running the install script!"
-makepkg --version || error "Cannot run makepkg! Please install all dependencies before running the install script!"
-
 getusername
 checkuser
 INSTALL_PATH="/home/$USERNAME/"
 wallpapersconfig
 add_config
 whichterm
-yay_install
 programs_install
 configs_install
