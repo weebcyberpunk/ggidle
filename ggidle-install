@@ -39,9 +39,9 @@
 
 # vars
 REMOTE_LINK="https://www.github.com/weebcyberpunk/"
-SUCKLESS_BUILDS_URL="$REMOTE_LINKsuckless"
-DOTS_URL="$REMOTE_LINKhome"
-VIM_URL="$REMOTE_LINKnyanvim"
+SUCKLESS_BUILDS_URL=$REMOTE_LINK"suckless"
+DOTS_URL=$REMOTE_LINK"home"
+VIM_URL=$REMOTE_LINK"nyanvim"
 
 # LIB {{{
 # prints error msg and exits
