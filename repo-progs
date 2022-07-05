@@ -22,6 +22,7 @@ ncmpcpp
 ffmpeg
 mpd
 mpc
+pulseaudio
 
 sxiv
 mpv

@@ -253,7 +253,8 @@ function configs_install {
 	sudo -u $USERNAME chmod +x "$INSTALL_PATH/.config/lf/scope"
 
 	sudo -u $USERNAME cp -r .local/share/* "$INSTALL_PATH/.local/share/"
-	sudo -u $USERNAME chmod +x .local/bin/* && cp -r .local/bin/* "$INSTALL_PATH/.local/bin/"
+	sudo -u $USERNAME cp .local/bin/* "$INSTALL_PATH/.local/bin/"
+	sudo -u $USERNAME chmod +x $INSTALL_PATH/.local/bin/*
 	sudo -u $USERNAME cp -r .icons/* "$INSTALL_PATH/.icons"
 	sudo -u $USERNAME cp .xprofile "$INSTALL_PATH"
 	sudo -u $USERNAME cp .zshenv "$INSTALL_PATH"
