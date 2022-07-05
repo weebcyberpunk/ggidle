@@ -223,8 +223,8 @@ function programs_install {
 		cd "$INSTALL_PATH/.local/share/suckless/dwm"
 
 		# set correct home before install
-		sudo -u $USERNAME sed -i "s/#define SCRIPTS_HOME \/home\/gg\/\.local\/bin/#define SCRIPTS_HOME \/home\/$USERNAME\/\.local\/bin" config.def.h
-		sudo -u $USERNAME sed -i "s/#define SCRIPTS_HOME \/home\/gg\/\.local\/bin/#define SCRIPTS_HOME \/home\/$USERNAME\/\.local\/bin" config.h
+		sudo -u $USERNAME sed -i "s/#define SCRIPTS_HOME \"\/home\/gg\/\.local\/bin/#define SCRIPTS_HOME \"\/home\/$USERNAME\/\.local\/bin/g" config.def.h
+		sudo -u $USERNAME sed -i "s/#define SCRIPTS_HOME \"\/home\/gg\/\.local\/bin/#define SCRIPTS_HOME \"\/home\/$USERNAME\/\.local\/bin/g" config.h
 
 		make install
 		cd "$INSTALL_PATH/.local/share/suckless/dmenu"
