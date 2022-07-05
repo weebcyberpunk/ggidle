@@ -304,7 +304,7 @@ dialog  --version 	|| error "Cannot run dialog! Please install all dependencies 
 makepkg --version 	|| error "Cannot run makepkg! Please install all dependencies before running the install script!"
 yay 	--version 	|| error "Cannot run yay! Please install all dependencies before running the install script!"
 wget 	--version 	|| error "Cannot run wget! Please install all dependencies before running the install script!"
-unzip 	--version 	|| error "Cannot run unzip! Please install all dependencies before running the install script!"
+unzip 	--help  	|| error "Cannot run unzip! Please install all dependencies before running the install script!"
 pacman -Q xorg-server	|| error "The X server is not installed! Please install all dependencies before running the install script!"
 
 # --test is only meant to be runned on developing, but I will commit that anyway
