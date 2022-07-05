@@ -42,6 +42,7 @@ REMOTE_LINK="https://www.github.com/weebcyberpunk/"
 SUCKLESS_BUILDS_URL=$REMOTE_LINK"suckless"
 DOTS_URL=$REMOTE_LINK"home"
 VIM_URL=$REMOTE_LINK"nyanvim"
+WALLPAPERS_URL=$REMOTE_LINK"wallpapers"
 
 # LIB {{{
 # prints error msg and exits
@@ -90,7 +91,7 @@ function wallpapersconfig {
 		--menu "Choose directory to install the IDLE wallpapers: " \
 		0 0 0 \
 		"/usr/share/backgrounds/Wallpapers" "Recommended, accessible system-wide and with automagically wallpaper setup" \
-		"~/Pictures/Wallpapers" "Accessible only by the $USERNAME user and without automagically setup" \
+		'pics/Wallpapers' "Accessible only by the $USERNAME user and without automagically setup" \
 		3>&1 1>&2 2>&3 3>&1
 	)
 
@@ -110,7 +111,6 @@ function add_config {
 		"Zathura" "IDLE configs to the Zathura PDF reader" "zathura" \
 		"tmux" "IDLE configs for the tmux multiplexer" "tmux" \
 		"cava" "IDLE configs for the cava audio visualizer" "cava" \
-		"htop" "IDLE configs for the htop task manager" "htop" \
 		"lightdm" "You probably don't want it if you already have a display manager" "lightdm" \
 		3>&1 1>&2 2>&3 3>&1
 	)
@@ -307,6 +307,17 @@ function configs_install {
 
 	sudo -u $USERNAME mkdir $INSTALL_PATH/{desk,dls,doc,mus,pics,vids}
 	sudo -u $USERNAME xdg-user-dirs-update
+
+	dialog --infobox "Installing wallpapers" 0 0 3>&1 1>&2 2>&3 3>&1
+
+	# wallpapers
+	if [ "$WALLPAPERS_PATH" == 'pics/Wallpapers' ]
+	then
+		sudo -u $USERNAME git clone $WALLPAPERS_URL $INSTALL_PATH/pics/Wallpapers --depth 1
+	else
+		mkdir -p /usr/share/backgrounds
+		git clone $WALLPAPERS_URL /usr/share/backgrounds/Wallpapers --depth 1
+	fi
 }
 # }}}
 
