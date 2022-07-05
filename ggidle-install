@@ -193,7 +193,7 @@ function checkuser {
 
 # INSTALL {{{
 function programs_install {
-	dialog --infobox "Installing programs from repo's progs file..." 0 0 3>&1 1>&2 2>&3 3>&1
+	dialog --infobox "Installing programs from repo's progs file... This can take several minutes..." 0 0 3>&1 1>&2 2>&3 3>&1
 
 	if [ "$IS_TEST" == "true" ]
 	then
@@ -202,13 +202,13 @@ function programs_install {
 		pacman -S --needed --noconfirm $(cat repo-progs) &> /tmp/ggidle-pac-log || error "error installing programs with pacman, see logs at /tmp/ggidle-pac-log"
 	fi
 
-	dialog --infobox "Installing programs from aur's progs file..." 0 0 3>&1 1>&2 2>&3 3>&1
+	dialog --infobox "Installing programs from aur's progs file... This can take several minutes..." 0 0 3>&1 1>&2 2>&3 3>&1
 
 	if [ "$IS_TEST" == "true" ]
 	then
 		sleep 5s
 	else
-		echo "1\n1\n" | yay --builddir /tmp --noanswerclean --noansweredit --noanswerdiff --noconfirm --removemake -S --needed $(cat aur-progs) >> /tmp/ggidle-yay-log || error "error installing programs with yay, see logs at /tmp/ggidle-yay-log"
+		echo "1\n1\n" | yay --builddir /tmp --noanswerclean --noansweredit --noanswerdiff --noconfirm --removemake -S --needed $(cat aur-progs) &> /tmp/ggidle-yay-log || error "error installing programs with yay, see logs at /tmp/ggidle-yay-log"
 	fi
 
 	dialog --infobox "Installing suckless software" 0 0 3>&1 1>&2 2>&3 3>&1
@@ -318,6 +318,12 @@ function configs_install {
 	# shell
 	dialog --infobox "Changing shell to zsh, this will require the password of the IDLE user" 0 0 3>&1 1>&2 2>&3 3>&1
 	sudo -u $USERNAME chsh -s /usr/bin/zsh
+	sudo -u $USERNAME mkdir -p $INSTALL_PATH/.config/zsh/plugs/ &> /dev/null
+	sudo -u $USERNAME git clone --depth 1 https://github.com/catppuccin/zsh-syntax-highlighting $INSTALL_PATH/.config/zsh/plugs/catppuccin-zsyntaxhi &> /dev/null
+	sudo -u $USERNAME git clone --depth 1 https://github.com/zsh-users/zsh-autosuggetions $INSTALL_PATH/.config/zsh/plugs/zsh-autosuggetions &> /dev/null
+	sudo -u $USERNAME git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting $INSTALL_PATH/.config/zsh/plugs/zsh-syntax-highlighting &> /dev/null
+
+	# mpd
 	dialog --infobox "Enabling mpd, this will require the password of the IDLE user" 0 0 3>&1 1>&2 2>&3 3>&1
 	sudo -u $USERNAME systemctl --user enable mpd
 }
