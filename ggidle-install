@@ -217,14 +217,14 @@ function programs_install {
 	then
 		sleep 5s
 	else
-		mkdir -p "$INSTALL_PATH/.local/share/"
-		git clone "$SUCKLESS_BUILDS_URL" "$INSTALL_PATH/.local/share/suckless"
+		sudo -u $USERNAME mkdir -p "$INSTALL_PATH/.local/share/"
+		sudo -u $USERNAME git clone "$SUCKLESS_BUILDS_URL" "$INSTALL_PATH/.local/share/suckless"
 		DIR=$(pwd)
 		cd "$INSTALL_PATH/.local/share/suckless/dwm"
 
 		# set correct home before install
-		sed -i "s/#define SCRIPTS_HOME \/home\/gg\/\.local\/bin/#define SCRIPTS_HOME \/home\/$USERNAME\/\.local\/bin" config.def.h
-		sed -i "s/#define SCRIPTS_HOME \/home\/gg\/\.local\/bin/#define SCRIPTS_HOME \/home\/$USERNAME\/\.local\/bin" config.h
+		sudo -u $USERNAME sed -i "s/#define SCRIPTS_HOME \/home\/gg\/\.local\/bin/#define SCRIPTS_HOME \/home\/$USERNAME\/\.local\/bin" config.def.h
+		sudo -u $USERNAME sed -i "s/#define SCRIPTS_HOME \/home\/gg\/\.local\/bin/#define SCRIPTS_HOME \/home\/$USERNAME\/\.local\/bin" config.h
 
 		make install
 		cd "$INSTALL_PATH/.local/share/suckless/dmenu"
@@ -240,49 +240,49 @@ function configs_install {
 
 	dialog --infobox "Installing configs" 0 0 3>&1 1>&2 2>&3 3>&1
 
-	mkdir -p "$INSTALL_PATH/.config"
-	mkdir -p "$INSTALL_PATH/.local/share"
-	mkdir -p "$INSTALL_PATH/.local/bin"
-	mkdir -p "$INSTALL_PATH/.icons"
+	sudo -u $USERNAME mkdir -p "$INSTALL_PATH/.config"
+	sudo -u $USERNAME mkdir -p "$INSTALL_PATH/.local/share"
+	sudo -u $USERNAME mkdir -p "$INSTALL_PATH/.local/bin"
+	sudo -u $USERNAME mkdir -p "$INSTALL_PATH/.icons"
 	git clone --depth 1 "$DOTS_URL" /tmp/dots
 	DIR=$(pwd)
 	cd /tmp/dots
-	cp -r .config/{dunst,galculator,gtk-*,lf,mpd,ncmpcpp,nitrogen,picom,zsh,user-dirs*} "$INSTALL_PATH/.config/"
+	sudo -u $USERNAME cp -r .config/{dunst,galculator,gtk-*,lf,mpd,ncmpcpp,nitrogen,picom,zsh,user-dirs*} "$INSTALL_PATH/.config/"
 
 	# set permissions for lf file
-	chmod +x "$INSTALL_PATH/.config/lf/scope"
+	sudo -u $USERNAME chmod +x "$INSTALL_PATH/.config/lf/scope"
 
-	cp -r .local/share/* "$INSTALL_PATH/.local/share/"
-	chmod +x .local/bin/* && cp -r .local/bin/* "$INSTALL_PATH/.local/bin/"
-	cp -r .icons/* "$INSTALL_PATH/.icons"
-	cp .xprofile "$INSTALL_PATH"
-	cp .zshenv "$INSTALL_PATH"
+	sudo -u $USERNAME cp -r .local/share/* "$INSTALL_PATH/.local/share/"
+	sudo -u $USERNAME chmod +x .local/bin/* && cp -r .local/bin/* "$INSTALL_PATH/.local/bin/"
+	sudo -u $USERNAME cp -r .icons/* "$INSTALL_PATH/.icons"
+	sudo -u $USERNAME cp .xprofile "$INSTALL_PATH"
+	sudo -u $USERNAME cp .zshenv "$INSTALL_PATH"
 
 	# catppuccin cursors
-	wget https://github.com/catppuccin/cursors/raw/main/cursors/Catppuccin-Mocha-Sky-Cursors.zip
-	unzip Catppuccin-Mocha-Sky-Cursors.zip -d $INSTALL_PATH/.icons/
-	mv $INSTALL_PATH/.icons/Catppuccin-Mocha-Sky-Cursors $INSTALL_PATH/.icons/Catppuccin-Mocha-Sky
+	wget https://github.com/catppuccin/cursors/raw/main/cursors/Catppuccin-Mocha-Sky-Cursors.zip /tmp/Catppuccin-Mocha-Sky-Cursors.zip
+	sudo -u $USERNAME unzip /tmp/Catppuccin-Mocha-Sky-Cursors.zip -d $INSTALL_PATH/.icons/
+	sudo -u $USERNAME mv $INSTALL_PATH/.icons/Catppuccin-Mocha-Sky-Cursors $INSTALL_PATH/.icons/Catppuccin-Mocha-Sky
 
 	# add_config
 	if [ "Zathura" = "*$ADD_CONFIG*" ]
 	then
-		cp -r .config/zathura "$INSTALL_PATH/.config/"
+		sudo -u $USERNAME cp -r .config/zathura "$INSTALL_PATH/.config/"
 	fi
 	if [ "tmux" = "*$ADD_CONFIG*" ]
 	then
-		cp -r .config/tmux "$INSTALL_PATH/.config/"
+		sudo -u $USERNAME cp -r .config/tmux "$INSTALL_PATH/.config/"
 	fi
 	if [ "cava" = "*$ADD_CONFIG*" ]
 	then
-		cp -r .config/cava "$INSTALL_PATH/.config/"
+		sudo -u $USERNAME cp -r .config/cava "$INSTALL_PATH/.config/"
 	fi
 	if [ "htop" = "*$ADD_CONFIG*" ]
 	then
-		cp -r .config/htop "$INSTALL_PATH/.config/"
+		sudo -u $USERNAME cp -r .config/htop "$INSTALL_PATH/.config/"
 	fi
 	if [ "NyanVim" = "*$ADD_CONFIG*" ]
 	then
-		git clone $VIM_URL "$INSTALL_PATH/.config/nvim"
+		sudo -u $USERNAME git clone $VIM_URL "$INSTALL_PATH/.config/nvim"
 	fi
 	if [ "lightdm" = "*$ADD_CONFIG*" ]
 	then
@@ -292,7 +292,7 @@ function configs_install {
 	fi
 	cd ..
 
-	xdg-user-dirs-update
+	sudo -u $USERNAME xdg-user-dirs-update
 }
 # }}}
 
