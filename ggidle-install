@@ -320,7 +320,7 @@ function configs_install {
 	sudo -u $USERNAME chsh -s /usr/bin/zsh
 	sudo -u $USERNAME mkdir -p $INSTALL_PATH/.config/zsh/plugs/ &> /dev/null
 	sudo -u $USERNAME git clone --depth 1 https://github.com/catppuccin/zsh-syntax-highlighting $INSTALL_PATH/.config/zsh/plugs/catppuccin-zsyntaxhi &> /dev/null
-	sudo -u $USERNAME git clone --depth 1 https://github.com/zsh-users/zsh-autosuggetions $INSTALL_PATH/.config/zsh/plugs/zsh-autosuggetions &> /dev/null
+	sudo -u $USERNAME git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions $INSTALL_PATH/.config/zsh/plugs/zsh-autosuggetions &> /dev/null
 	sudo -u $USERNAME git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting $INSTALL_PATH/.config/zsh/plugs/zsh-syntax-highlighting &> /dev/null
 
 	# mpd
