@@ -10,10 +10,10 @@
 #
 # needs to be run as root inside the cloned repo
 #
-# dependencies: git, dialog, the yay aur helper, unzip, wget and the base-devel 
-# metapack
-# also, the enviroment itself will need you to have installed xorg and sudo
-# before running the script
+# dependencies: git, dialog, sudo, the yay aur helper, unzip, wget and the 
+# base-devel metapack
+# also, the enviroment itself will need you to have installed xorg before 
+# running the script
 
 #
 # Copyright 2022 © GG
@@ -305,6 +305,7 @@ makepkg --version 	> /dev/null || error "Cannot run makepkg! Please install all 
 yay 	--version 	> /dev/null || error "Cannot run yay! Please install all dependencies before running the install script!"
 wget 	--version 	> /dev/null || error "Cannot run wget! Please install all dependencies before running the install script!"
 unzip 	--help  	> /dev/null || error "Cannot run unzip! Please install all dependencies before running the install script!"
+sudo 	--version  	> /dev/null || error "Cannot run sudo! Please install all dependencies before running the install script!"
 pacman -Q xorg-server 	> /dev/null || error "The X server is not installed! Please install all dependencies before running the install script!"
 
 # --test is only meant to be runned on developing, but I will commit that anyway
