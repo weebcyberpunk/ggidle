@@ -300,6 +300,7 @@ function configs_install {
 	mkdir -p /usr/share/xsessions/
 	mv x/dwm.desktop /usr/share/xsessions/dwm.desktop
 
+	# directories
 	sudo -u $USERNAME mkdir $INSTALL_PATH/{desk,dls,doc,mus,pics,vids}
 	sudo -u $USERNAME xdg-user-dirs-update
 
@@ -313,6 +314,9 @@ function configs_install {
 		mkdir -p /usr/share/backgrounds
 		git clone $WALLPAPERS_URL /usr/share/backgrounds/Wallpapers --depth 1
 	fi
+
+	# shell
+	sudo -u $USERNAME chsh -s zsh
 }
 # }}}
 
