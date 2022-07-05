@@ -259,43 +259,51 @@ function configs_install {
 	sudo -u $USERNAME cp .zshenv "$INSTALL_PATH"
 
 	# catppuccin cursors
-	wget https://github.com/catppuccin/cursors/raw/main/cursors/Catppuccin-Mocha-Sky-Cursors.zip /tmp/Catppuccin-Mocha-Sky-Cursors.zip
-	sudo -u $USERNAME unzip /tmp/Catppuccin-Mocha-Sky-Cursors.zip -d $INSTALL_PATH/.icons/
+	wget https://github.com/catppuccin/cursors/raw/main/cursors/Catppuccin-Mocha-Sky-Cursors.zip
+	sudo -u $USERNAME unzip Catppuccin-Mocha-Sky-Cursors.zip -d $INSTALL_PATH/.icons/
 	sudo -u $USERNAME mv $INSTALL_PATH/.icons/Catppuccin-Mocha-Sky-Cursors $INSTALL_PATH/.icons/Catppuccin-Mocha-Sky
 
 	# add_config
-	if [ "Zathura" = "*$ADD_CONFIG*" ]
-	then
-		sudo -u $USERNAME cp -r .config/zathura "$INSTALL_PATH/.config/"
-	fi
-	if [ "tmux" = "*$ADD_CONFIG*" ]
-	then
-		sudo -u $USERNAME cp -r .config/tmux "$INSTALL_PATH/.config/"
-	fi
-	if [ "cava" = "*$ADD_CONFIG*" ]
-	then
-		sudo -u $USERNAME cp -r .config/cava "$INSTALL_PATH/.config/"
-	fi
-	if [ "htop" = "*$ADD_CONFIG*" ]
-	then
-		sudo -u $USERNAME cp -r .config/htop "$INSTALL_PATH/.config/"
-	fi
-	if [ "NyanVim" = "*$ADD_CONFIG*" ]
-	then
-		sudo -u $USERNAME git clone $VIM_URL "$INSTALL_PATH/.config/nvim"
-	fi
-	if [ "lightdm" = "*$ADD_CONFIG*" ]
-	then
-		pacman -S lightdm lightdm-gkt-greeter
-		systemctl enable lightdm.service
-		cp others/lightdm/* /etc/lightdm
-	fi
+	case "$ADD_CONFIG" in
+		*Zathura* )
+			sudo -u $USERNAME cp -r .config/zathura "$INSTALL_PATH/.config/"
+		;;
+	esac
+	case "$ADD_CONFIG" in
+		*tmux* )
+			sudo -u $USERNAME cp -r .config/tmux "$INSTALL_PATH/.config/"
+		;;
+	esac
+	case "$ADD_CONFIG" in
+		*cava* )
+			sudo -u $USERNAME cp -r .config/cava "$INSTALL_PATH/.config/"
+		;;
+	esac
+	case "$ADD_CONFIG" in
+		*htop* )
+			sudo -u $USERNAME cp -r .config/htop "$INSTALL_PATH/.config/"
+		;;
+	esac
+	case "$ADD_CONFIG" in
+		*NyanVim* )
+			sudo -u $USERNAME git clone $VIM_URL "$INSTALL_PATH/.config/nvim"
+		;;
+	esac
+	case "$ADD_CONFIG" in
+		*lightdm* )
+			pacman -S lightdm lightdm-gkt-greeter
+			systemctl enable lightdm.service
+			cp others/lightdm/* /etc/lightdm
+		;;
+	esac
 	cd $DIR
 	unset DIR
 
 	# dwm.desktop
+	mkdir -p /usr/share/xsessions/
 	mv x/dwm.desktop /usr/share/xsessions/dwm.desktop
 
+	sudo -u $USERNAME mkdir $INSTALL_PATH/{desk,dls,doc,mus,pics,vids}
 	sudo -u $USERNAME xdg-user-dirs-update
 }
 # }}}
@@ -318,6 +326,10 @@ if [ "$1" != "--test" ]
 then 
 	IS_TEST="false"
 	sysupgrade
+else
+	add_config
+	echo $ADD_CONFIG
+	exit
 fi
 
 getusername
