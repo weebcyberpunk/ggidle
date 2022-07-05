@@ -290,7 +290,11 @@ function configs_install {
 		systemctl enable lightdm.service
 		cp others/lightdm/* /etc/lightdm
 	fi
-	cd ..
+	cd $DIR
+	unset DIR
+
+	# dwm.desktop
+	mv x/dwm.desktop /usr/share/xsessions/dwm.desktop
 
 	sudo -u $USERNAME xdg-user-dirs-update
 }
