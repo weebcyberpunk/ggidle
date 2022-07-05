@@ -247,7 +247,7 @@ function configs_install {
 	git clone --depth 1 "$DOTS_URL" /tmp/dots
 	DIR=$(pwd)
 	cd /tmp/dots
-	sudo -u $USERNAME cp -r .config/{dunst,galculator,gtk-*,lf,mpd,ncmpcpp,nitrogen,picom,zsh,user-dirs*} "$INSTALL_PATH/.config/"
+	sudo -u $USERNAME cp -r .config/{dunst,galculator,gtk-*,lf,mpd,ncmpcpp,nitrogen,picom,zsh,htop,user-dirs*} "$INSTALL_PATH/.config/"
 
 	# set permissions for lf file
 	sudo -u $USERNAME chmod +x "$INSTALL_PATH/.config/lf/scope"
@@ -278,11 +278,6 @@ function configs_install {
 	case "$ADD_CONFIG" in
 		*cava* )
 			sudo -u $USERNAME cp -r .config/cava "$INSTALL_PATH/.config/"
-		;;
-	esac
-	case "$ADD_CONFIG" in
-		*htop* )
-			sudo -u $USERNAME cp -r .config/htop "$INSTALL_PATH/.config/"
 		;;
 	esac
 	case "$ADD_CONFIG" in
