@@ -208,7 +208,7 @@ function programs_install {
 	then
 		sleep 5s
 	else
-		echo "1\n1\n" | yay --noanswerclean --noansweredit --noanswerdiff --noconfirm --removemake -S --needed $(cat aur-progs) >> /tmp/ggidle-yay-log || error "error installing programs with yay, see logs at /tmp/ggidle-yay-log"
+		echo "1\n1\n" | yay --builddir /tmp --noanswerclean --noansweredit --noanswerdiff --noconfirm --removemake -S --needed $(cat aur-progs) >> /tmp/ggidle-yay-log || error "error installing programs with yay, see logs at /tmp/ggidle-yay-log"
 	fi
 
 	dialog --infobox "Installing suckless software" 0 0 3>&1 1>&2 2>&3 3>&1
