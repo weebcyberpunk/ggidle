@@ -244,8 +244,9 @@ function configs_install {
 	mkdir -p "$INSTALL_PATH/.local/share"
 	mkdir -p "$INSTALL_PATH/.local/bin"
 	mkdir -p "$INSTALL_PATH/.icons"
-	git clone --depth 1 "$DOTS_URL" "dots"
-	cd dots
+	git clone --depth 1 "$DOTS_URL" /tmp/dots
+	DIR=$(pwd)
+	cd /tmp/dots
 	cp -r .config/{dunst,galculator,gtk-*,lf,mpd,ncmpcpp,nitrogen,picom,zsh,user-dirs*} "$INSTALL_PATH/.config/"
 
 	# set permissions for lf file
@@ -263,27 +264,27 @@ function configs_install {
 	mv $INSTALL_PATH/.icons/Catppuccin-Mocha-Sky-Cursors $INSTALL_PATH/.icons/Catppuccin-Mocha-Sky
 
 	# add_config
-	if [ "Zathura" in $ADD_CONFIG ]
+	if [ "Zathura" = "*$ADD_CONFIG*" ]
 	then
 		cp -r .config/zathura "$INSTALL_PATH/.config/"
 	fi
-	if [ "tmux" in $ADD_CONFIG ]
+	if [ "tmux" = "*$ADD_CONFIG*" ]
 	then
 		cp -r .config/tmux "$INSTALL_PATH/.config/"
 	fi
-	if [ "cava" in $ADD_CONFIG ]
+	if [ "cava" = "*$ADD_CONFIG*" ]
 	then
 		cp -r .config/cava "$INSTALL_PATH/.config/"
 	fi
-	if [ "htop" in $ADD_CONFIG ]
+	if [ "htop" = "*$ADD_CONFIG*" ]
 	then
 		cp -r .config/htop "$INSTALL_PATH/.config/"
 	fi
-	if [ "NyanVim" in $ADD_CONFIG ]
+	if [ "NyanVim" = "*$ADD_CONFIG*" ]
 	then
 		git clone $VIM_URL "$INSTALL_PATH/.config/nvim"
 	fi
-	if [ "lightdm" in $ADD_CONFIG ]
+	if [ "lightdm" = "*$ADD_CONFIG*" ]
 	then
 		pacman -S lightdm lightdm-gkt-greeter
 		systemctl enable lightdm.service
@@ -314,7 +315,7 @@ fi
 
 getusername
 checkuser
-INSTALL_PATH="/home/$USERNAME/"
+INSTALL_PATH="/home/$USERNAME"
 wallpapersconfig
 add_config
 whichterm
