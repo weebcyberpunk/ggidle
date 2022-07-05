@@ -287,7 +287,7 @@ function configs_install {
 	esac
 	case "$ADD_CONFIG" in
 		*lightdm* )
-			pacman -S --needed --noconfirm lightdm lightdm-gkt-greeter
+			pacman -S --needed --noconfirm lightdm lightdm-gtk-greeter
 			systemctl enable lightdm.service
 			mkdir -p /etc/lightdm
 			cp others/lightdm/* /etc/lightdm
