@@ -23,6 +23,7 @@ ffmpeg
 mpd
 mpc
 pulseaudio
+pamixer
 
 sxiv
 mpv

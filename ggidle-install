@@ -218,19 +218,19 @@ function programs_install {
 		sleep 5s
 	else
 		sudo -u $USERNAME mkdir -p "$INSTALL_PATH/.local/share/"
-		sudo -u $USERNAME git clone "$SUCKLESS_BUILDS_URL" "$INSTALL_PATH/.local/share/suckless"
+		sudo -u $USERNAME git clone "$SUCKLESS_BUILDS_URL" "$INSTALL_PATH/.local/share/suckless" > /dev/null
 		DIR=$(pwd)
 		cd "$INSTALL_PATH/.local/share/suckless/dwm"
 
 		# set correct home before install
-		sudo -u $USERNAME sed -i "s/#define SCRIPTS_HOME \"\/home\/gg\/\.local\/bin/#define SCRIPTS_HOME \"\/home\/$USERNAME\/\.local\/bin/g" config.def.h
-		sudo -u $USERNAME sed -i "s/#define SCRIPTS_HOME \"\/home\/gg\/\.local\/bin/#define SCRIPTS_HOME \"\/home\/$USERNAME\/\.local\/bin/g" config.h
+		sudo -u $USERNAME sed -i "s/#define SCRIPTS_HOME \"\/home\/gg\/\.local\/bin/#define SCRIPTS_HOME \"\/home\/$USERNAME\/\.local\/bin/g" config.def.h > /dev/null
+		sudo -u $USERNAME sed -i "s/#define SCRIPTS_HOME \"\/home\/gg\/\.local\/bin/#define SCRIPTS_HOME \"\/home\/$USERNAME\/\.local\/bin/g" config.h > /dev/null
 
-		make install
+		make install > /dev/null
 		cd "$INSTALL_PATH/.local/share/suckless/dmenu"
-		make install
+		make install > /dev/null
 		cd "$INSTALL_PATH/.local/share/suckless/$WHICH_TERM"
-		make install
+		make install > /dev/null
 		cd $DIR
 		unset DIR
 	fi
@@ -240,56 +240,56 @@ function configs_install {
 
 	dialog --infobox "Installing configs" 0 0 3>&1 1>&2 2>&3 3>&1
 
-	sudo -u $USERNAME mkdir -p "$INSTALL_PATH/.config"
-	sudo -u $USERNAME mkdir -p "$INSTALL_PATH/.local/share"
-	sudo -u $USERNAME mkdir -p "$INSTALL_PATH/.local/bin"
-	sudo -u $USERNAME mkdir -p "$INSTALL_PATH/.icons"
-	git clone --depth 1 "$DOTS_URL" /tmp/dots
+	sudo -u $USERNAME mkdir -p "$INSTALL_PATH/.config" > /dev/null
+	sudo -u $USERNAME mkdir -p "$INSTALL_PATH/.local/share" > /dev/null
+	sudo -u $USERNAME mkdir -p "$INSTALL_PATH/.local/bin" > /dev/null
+	sudo -u $USERNAME mkdir -p "$INSTALL_PATH/.icons" > /dev/null
+	git clone --depth 1 "$DOTS_URL" /tmp/dots > /dev/null
 	DIR=$(pwd)
 	cd /tmp/dots
-	sudo -u $USERNAME cp -r .config/{dunst,galculator,gtk-*,lf,mpd,ncmpcpp,nitrogen,picom,zsh,htop,user-dirs*} "$INSTALL_PATH/.config/"
+	sudo -u $USERNAME cp -r .config/{dunst,galculator,gtk-*,lf,mpd,ncmpcpp,nitrogen,picom,zsh,htop,user-dirs*} "$INSTALL_PATH/.config/" > /dev/null
 
 	# set permissions for lf file
-	sudo -u $USERNAME chmod +x "$INSTALL_PATH/.config/lf/scope"
+	sudo -u $USERNAME chmod +x "$INSTALL_PATH/.config/lf/scope" > /dev/null
 
-	sudo -u $USERNAME cp -r .local/share/* "$INSTALL_PATH/.local/share/"
-	sudo -u $USERNAME cp .local/bin/* "$INSTALL_PATH/.local/bin/"
-	sudo -u $USERNAME chmod +x $INSTALL_PATH/.local/bin/*
-	sudo -u $USERNAME cp -r .icons/* "$INSTALL_PATH/.icons"
-	sudo -u $USERNAME cp .xprofile "$INSTALL_PATH"
-	sudo -u $USERNAME cp .zshenv "$INSTALL_PATH"
+	sudo -u $USERNAME cp -r .local/share/* "$INSTALL_PATH/.local/share/" > /dev/null
+	sudo -u $USERNAME cp .local/bin/* "$INSTALL_PATH/.local/bin/" > /dev/null
+	sudo -u $USERNAME chmod +x $INSTALL_PATH/.local/bin/* > /dev/null
+	sudo -u $USERNAME cp -r .icons/* "$INSTALL_PATH/.icons" > /dev/null
+	sudo -u $USERNAME cp .xprofile "$INSTALL_PATH" > /dev/null
+	sudo -u $USERNAME cp .zshenv "$INSTALL_PATH" > /dev/null
 
 	# catppuccin cursors
-	wget https://github.com/catppuccin/cursors/raw/main/cursors/Catppuccin-Mocha-Sky-Cursors.zip
-	sudo -u $USERNAME unzip Catppuccin-Mocha-Sky-Cursors.zip -d $INSTALL_PATH/.icons/
-	sudo -u $USERNAME mv $INSTALL_PATH/.icons/Catppuccin-Mocha-Sky-Cursors $INSTALL_PATH/.icons/Catppuccin-Mocha-Sky
+	wget https://github.com/catppuccin/cursors/raw/main/cursors/Catppuccin-Mocha-Sky-Cursors.zip > /dev/null
+	sudo -u $USERNAME unzip Catppuccin-Mocha-Sky-Cursors.zip -d $INSTALL_PATH/.icons/ > /dev/null
+	sudo -u $USERNAME mv $INSTALL_PATH/.icons/Catppuccin-Mocha-Sky-Cursors $INSTALL_PATH/.icons/Catppuccin-Mocha-Sky > /dev/null
 
 	# add_config
 	case "$ADD_CONFIG" in
 		*Zathura* )
-			sudo -u $USERNAME cp -r .config/zathura "$INSTALL_PATH/.config/"
+			sudo -u $USERNAME cp -r .config/zathura "$INSTALL_PATH/.config/" > /dev/null
 		;;
 	esac
 	case "$ADD_CONFIG" in
 		*tmux* )
-			sudo -u $USERNAME cp -r .config/tmux "$INSTALL_PATH/.config/"
+			sudo -u $USERNAME cp -r .config/tmux "$INSTALL_PATH/.config/" > /dev/null
 		;;
 	esac
 	case "$ADD_CONFIG" in
 		*cava* )
-			sudo -u $USERNAME cp -r .config/cava "$INSTALL_PATH/.config/"
+			sudo -u $USERNAME cp -r .config/cava "$INSTALL_PATH/.config/" > /dev/null
 		;;
 	esac
 	case "$ADD_CONFIG" in
 		*NyanVim* )
-			sudo -u $USERNAME git clone $VIM_URL "$INSTALL_PATH/.config/nvim"
+			sudo -u $USERNAME git clone $VIM_URL "$INSTALL_PATH/.config/nvim" > /dev/null
 		;;
 	esac
 	case "$ADD_CONFIG" in
 		*lightdm* )
-			pacman -S --needed --noconfirm lightdm lightdm-gtk-greeter
-			systemctl enable lightdm.service
-			mkdir -p /etc/lightdm
+			pacman -S --needed --noconfirm lightdm lightdm-gtk-greeter > /dev/null
+			systemctl enable lightdm.service > /dev/null
+			mkdir -p /etc/lightdm > /dev/null
 			cp others/lightdm/* /etc/lightdm
 		;;
 	esac
@@ -301,22 +301,25 @@ function configs_install {
 	mv x/dwm.desktop /usr/share/xsessions/dwm.desktop
 
 	# directories
-	sudo -u $USERNAME mkdir $INSTALL_PATH/{desk,dls,doc,mus,pics,vids}
-	sudo -u $USERNAME xdg-user-dirs-update
+	sudo -u $USERNAME mkdir $INSTALL_PATH/{desk,dls,doc,mus,pics,vids} > /dev/null
+	sudo -u $USERNAME xdg-user-dirs-update > /dev/null
 
 	dialog --infobox "Installing wallpapers" 0 0 3>&1 1>&2 2>&3 3>&1
 
 	# wallpapers
 	if [ "$WALLPAPERS_PATH" == 'pics/Wallpapers' ]
 	then
-		sudo -u $USERNAME git clone $WALLPAPERS_URL $INSTALL_PATH/pics/Wallpapers --depth 1
+		sudo -u $USERNAME git clone $WALLPAPERS_URL $INSTALL_PATH/pics/Wallpapers --depth 1 > /dev/null
 	else
 		mkdir -p /usr/share/backgrounds
-		git clone $WALLPAPERS_URL /usr/share/backgrounds/Wallpapers --depth 1
+		git clone $WALLPAPERS_URL /usr/share/backgrounds/Wallpapers --depth 1 > /dev/null
 	fi
 
 	# shell
+	dialog --infobox "Changing shell to zsh, this will require the password of the IDLE user" 0 0 3>&1 1>&2 2>&3 3>&1
 	sudo -u $USERNAME chsh -s zsh
+	dialog --infobox "Enabling mpd, this will require the password of the IDLE user" 0 0 3>&1 1>&2 2>&3 3>&1
+	sudo -U $USERNAME systemctl --user enable mpd
 }
 # }}}
 
@@ -338,10 +341,6 @@ if [ "$1" != "--test" ]
 then 
 	IS_TEST="false"
 	sysupgrade
-else
-	add_config
-	echo $ADD_CONFIG
-	exit
 fi
 
 getusername
@@ -351,4 +350,9 @@ wallpapersconfig
 add_config
 whichterm
 programs_install
-configs_install
+if [ "$1" != "--test" ]
+then
+	configs_install
+fi
+
+dialog --msgbox "Finished installation of GG's Integrated Developement & Living Enviroment (IDLE)" 0 0 3>&1 1>&2 2>&3 3>&1
