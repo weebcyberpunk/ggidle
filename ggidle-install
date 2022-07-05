@@ -317,9 +317,9 @@ function configs_install {
 
 	# shell
 	dialog --infobox "Changing shell to zsh, this will require the password of the IDLE user" 0 0 3>&1 1>&2 2>&3 3>&1
-	sudo -u $USERNAME chsh -s zsh
+	sudo -u $USERNAME chsh -s /usr/bin/zsh
 	dialog --infobox "Enabling mpd, this will require the password of the IDLE user" 0 0 3>&1 1>&2 2>&3 3>&1
-	sudo -U $USERNAME systemctl --user enable mpd
+	sudo -u $USERNAME systemctl --user enable mpd
 }
 # }}}
 
