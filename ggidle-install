@@ -186,7 +186,7 @@ function createuser {
 
 # check if user exists. if y, do nothing. if n, creates it
 function checkuser {
-	id -u $USERNAME > /dev/null || createuser
+	id -u $USERNAME &> /dev/null || createuser
 }
 
 # }}}
@@ -199,7 +199,7 @@ function programs_install {
 	then
 		sleep 5s
 	else
-		pacman -S --needed --noconfirm $(cat repo-progs) >> /tmp/ggidle-pac-log || error "error installing programs with pacman, see logs at /tmp/ggidle-pac-log"
+		pacman -S --needed --noconfirm $(cat repo-progs) &> /tmp/ggidle-pac-log || error "error installing programs with pacman, see logs at /tmp/ggidle-pac-log"
 	fi
 
 	dialog --infobox "Installing programs from aur's progs file..." 0 0 3>&1 1>&2 2>&3 3>&1
@@ -218,19 +218,19 @@ function programs_install {
 		sleep 5s
 	else
 		sudo -u $USERNAME mkdir -p "$INSTALL_PATH/.local/share/"
-		sudo -u $USERNAME git clone "$SUCKLESS_BUILDS_URL" "$INSTALL_PATH/.local/share/suckless" > /dev/null
+		sudo -u $USERNAME git clone "$SUCKLESS_BUILDS_URL" "$INSTALL_PATH/.local/share/suckless" &> /dev/null
 		DIR=$(pwd)
 		cd "$INSTALL_PATH/.local/share/suckless/dwm"
 
 		# set correct home before install
-		sudo -u $USERNAME sed -i "s/#define SCRIPTS_HOME \"\/home\/gg\/\.local\/bin/#define SCRIPTS_HOME \"\/home\/$USERNAME\/\.local\/bin/g" config.def.h > /dev/null
-		sudo -u $USERNAME sed -i "s/#define SCRIPTS_HOME \"\/home\/gg\/\.local\/bin/#define SCRIPTS_HOME \"\/home\/$USERNAME\/\.local\/bin/g" config.h > /dev/null
+		sudo -u $USERNAME sed -i "s/#define SCRIPTS_HOME \"\/home\/gg\/\.local\/bin/#define SCRIPTS_HOME \"\/home\/$USERNAME\/\.local\/bin/g" config.def.h &> /dev/null
+		sudo -u $USERNAME sed -i "s/#define SCRIPTS_HOME \"\/home\/gg\/\.local\/bin/#define SCRIPTS_HOME \"\/home\/$USERNAME\/\.local\/bin/g" config.h &> /dev/null
 
-		make install > /dev/null
+		make install &> /dev/null
 		cd "$INSTALL_PATH/.local/share/suckless/dmenu"
-		make install > /dev/null
+		make install &> /dev/null
 		cd "$INSTALL_PATH/.local/share/suckless/$WHICH_TERM"
-		make install > /dev/null
+		make install &> /dev/null
 		cd $DIR
 		unset DIR
 	fi
@@ -240,56 +240,56 @@ function configs_install {
 
 	dialog --infobox "Installing configs" 0 0 3>&1 1>&2 2>&3 3>&1
 
-	sudo -u $USERNAME mkdir -p "$INSTALL_PATH/.config" > /dev/null
-	sudo -u $USERNAME mkdir -p "$INSTALL_PATH/.local/share" > /dev/null
-	sudo -u $USERNAME mkdir -p "$INSTALL_PATH/.local/bin" > /dev/null
-	sudo -u $USERNAME mkdir -p "$INSTALL_PATH/.icons" > /dev/null
-	git clone --depth 1 "$DOTS_URL" /tmp/dots > /dev/null
+	sudo -u $USERNAME mkdir -p "$INSTALL_PATH/.config" &> /dev/null
+	sudo -u $USERNAME mkdir -p "$INSTALL_PATH/.local/share" &> /dev/null
+	sudo -u $USERNAME mkdir -p "$INSTALL_PATH/.local/bin" &> /dev/null
+	sudo -u $USERNAME mkdir -p "$INSTALL_PATH/.icons" &> /dev/null
+	git clone --depth 1 "$DOTS_URL" /tmp/dots &> /dev/null
 	DIR=$(pwd)
 	cd /tmp/dots
-	sudo -u $USERNAME cp -r .config/{dunst,galculator,gtk-*,lf,mpd,ncmpcpp,nitrogen,picom,zsh,htop,user-dirs*} "$INSTALL_PATH/.config/" > /dev/null
+	sudo -u $USERNAME cp -r .config/{dunst,galculator,gtk-*,lf,mpd,ncmpcpp,nitrogen,picom,zsh,htop,user-dirs*} "$INSTALL_PATH/.config/" &> /dev/null
 
 	# set permissions for lf file
-	sudo -u $USERNAME chmod +x "$INSTALL_PATH/.config/lf/scope" > /dev/null
+	sudo -u $USERNAME chmod +x "$INSTALL_PATH/.config/lf/scope" &> /dev/null
 
-	sudo -u $USERNAME cp -r .local/share/* "$INSTALL_PATH/.local/share/" > /dev/null
-	sudo -u $USERNAME cp .local/bin/* "$INSTALL_PATH/.local/bin/" > /dev/null
-	sudo -u $USERNAME chmod +x $INSTALL_PATH/.local/bin/* > /dev/null
-	sudo -u $USERNAME cp -r .icons/* "$INSTALL_PATH/.icons" > /dev/null
-	sudo -u $USERNAME cp .xprofile "$INSTALL_PATH" > /dev/null
-	sudo -u $USERNAME cp .zshenv "$INSTALL_PATH" > /dev/null
+	sudo -u $USERNAME cp -r .local/share/* "$INSTALL_PATH/.local/share/" &> /dev/null
+	sudo -u $USERNAME cp .local/bin/* "$INSTALL_PATH/.local/bin/" &> /dev/null
+	sudo -u $USERNAME chmod +x $INSTALL_PATH/.local/bin/* &> /dev/null
+	sudo -u $USERNAME cp -r .icons/* "$INSTALL_PATH/.icons" &> /dev/null
+	sudo -u $USERNAME cp .xprofile "$INSTALL_PATH" &> /dev/null
+	sudo -u $USERNAME cp .zshenv "$INSTALL_PATH" &> /dev/null
 
 	# catppuccin cursors
-	wget https://github.com/catppuccin/cursors/raw/main/cursors/Catppuccin-Mocha-Sky-Cursors.zip > /dev/null
-	sudo -u $USERNAME unzip Catppuccin-Mocha-Sky-Cursors.zip -d $INSTALL_PATH/.icons/ > /dev/null
-	sudo -u $USERNAME mv $INSTALL_PATH/.icons/Catppuccin-Mocha-Sky-Cursors $INSTALL_PATH/.icons/Catppuccin-Mocha-Sky > /dev/null
+	wget https://github.com/catppuccin/cursors/raw/main/cursors/Catppuccin-Mocha-Sky-Cursors.zip &> /dev/null
+	sudo -u $USERNAME unzip Catppuccin-Mocha-Sky-Cursors.zip -d $INSTALL_PATH/.icons/ &> /dev/null
+	sudo -u $USERNAME mv $INSTALL_PATH/.icons/Catppuccin-Mocha-Sky-Cursors $INSTALL_PATH/.icons/Catppuccin-Mocha-Sky &> /dev/null
 
 	# add_config
 	case "$ADD_CONFIG" in
 		*Zathura* )
-			sudo -u $USERNAME cp -r .config/zathura "$INSTALL_PATH/.config/" > /dev/null
+			sudo -u $USERNAME cp -r .config/zathura "$INSTALL_PATH/.config/" &> /dev/null
 		;;
 	esac
 	case "$ADD_CONFIG" in
 		*tmux* )
-			sudo -u $USERNAME cp -r .config/tmux "$INSTALL_PATH/.config/" > /dev/null
+			sudo -u $USERNAME cp -r .config/tmux "$INSTALL_PATH/.config/" &> /dev/null
 		;;
 	esac
 	case "$ADD_CONFIG" in
 		*cava* )
-			sudo -u $USERNAME cp -r .config/cava "$INSTALL_PATH/.config/" > /dev/null
+			sudo -u $USERNAME cp -r .config/cava "$INSTALL_PATH/.config/" &> /dev/null
 		;;
 	esac
 	case "$ADD_CONFIG" in
 		*NyanVim* )
-			sudo -u $USERNAME git clone $VIM_URL "$INSTALL_PATH/.config/nvim" > /dev/null
+			sudo -u $USERNAME git clone $VIM_URL "$INSTALL_PATH/.config/nvim" &> /dev/null
 		;;
 	esac
 	case "$ADD_CONFIG" in
 		*lightdm* )
-			pacman -S --needed --noconfirm lightdm lightdm-gtk-greeter > /dev/null
-			systemctl enable lightdm.service > /dev/null
-			mkdir -p /etc/lightdm > /dev/null
+			pacman -S --needed --noconfirm lightdm lightdm-gtk-greeter &> /dev/null
+			systemctl enable lightdm.service &> /dev/null
+			mkdir -p /etc/lightdm &> /dev/null
 			cp others/lightdm/* /etc/lightdm
 		;;
 	esac
@@ -301,18 +301,18 @@ function configs_install {
 	mv x/dwm.desktop /usr/share/xsessions/dwm.desktop
 
 	# directories
-	sudo -u $USERNAME mkdir $INSTALL_PATH/{desk,dls,doc,mus,pics,vids} > /dev/null
-	sudo -u $USERNAME xdg-user-dirs-update > /dev/null
+	sudo -u $USERNAME mkdir $INSTALL_PATH/{desk,dls,doc,mus,pics,vids} &> /dev/null
+	sudo -u $USERNAME xdg-user-dirs-update &> /dev/null
 
 	dialog --infobox "Installing wallpapers" 0 0 3>&1 1>&2 2>&3 3>&1
 
 	# wallpapers
 	if [ "$WALLPAPERS_PATH" == 'pics/Wallpapers' ]
 	then
-		sudo -u $USERNAME git clone $WALLPAPERS_URL $INSTALL_PATH/pics/Wallpapers --depth 1 > /dev/null
+		sudo -u $USERNAME git clone $WALLPAPERS_URL $INSTALL_PATH/pics/Wallpapers --depth 1 &> /dev/null
 	else
 		mkdir -p /usr/share/backgrounds
-		git clone $WALLPAPERS_URL /usr/share/backgrounds/Wallpapers --depth 1 > /dev/null
+		git clone $WALLPAPERS_URL /usr/share/backgrounds/Wallpapers --depth 1 &> /dev/null
 	fi
 
 	# shell
@@ -326,14 +326,14 @@ function configs_install {
 IS_TEST="true"
 
 # checks if dependencies are installed
-git     --version 	> /dev/null || error "Cannot run git! Please install all dependencies before running the install script!"
-dialog  --version 	> /dev/null || error "Cannot run dialog! Please install all dependencies before running the install script!"
-makepkg --version 	> /dev/null || error "Cannot run makepkg! Please install all dependencies before running the install script!"
-yay 	--version 	> /dev/null || error "Cannot run yay! Please install all dependencies before running the install script!"
-wget 	--version 	> /dev/null || error "Cannot run wget! Please install all dependencies before running the install script!"
-unzip 	--help  	> /dev/null || error "Cannot run unzip! Please install all dependencies before running the install script!"
-sudo 	--version  	> /dev/null || error "Cannot run sudo! Please install all dependencies before running the install script!"
-pacman -Q xorg-server 	> /dev/null || error "The X server is not installed! Please install all dependencies before running the install script!"
+git     --version 	&> /dev/null || error "Cannot run git! Please install all dependencies before running the install script!"
+dialog  --version 	&> /dev/null || error "Cannot run dialog! Please install all dependencies before running the install script!"
+makepkg --version 	&> /dev/null || error "Cannot run makepkg! Please install all dependencies before running the install script!"
+yay 	--version 	&> /dev/null || error "Cannot run yay! Please install all dependencies before running the install script!"
+wget 	--version 	&> /dev/null || error "Cannot run wget! Please install all dependencies before running the install script!"
+unzip 	--help  	&> /dev/null || error "Cannot run unzip! Please install all dependencies before running the install script!"
+sudo 	--version  	&> /dev/null || error "Cannot run sudo! Please install all dependencies before running the install script!"
+pacman -Q xorg-server 	&> /dev/null || error "The X server is not installed! Please install all dependencies before running the install script!"
 
 # --test is only meant to be runned on developing, but I will commit that anyway
 # the flag will make all sudo and install features to be skipped
