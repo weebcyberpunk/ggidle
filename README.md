@@ -54,8 +54,8 @@ see the default keybinds and change as you want.
 
 # Screenshots
 
-[screenshot1](screenshot1.png)
+![screenshot1](screenshot1.png)
 
-[screenshot2](screenshot2.png)
+![screenshot2](screenshot2.png)
 
-[screenshot3](screenshot3.png)
+![screenshot3](screenshot3.png)
