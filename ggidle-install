@@ -320,7 +320,7 @@ function configs_install {
 	sudo -u $USERNAME chsh -s /usr/bin/zsh
 	sudo -u $USERNAME mkdir -p $INSTALL_PATH/.config/zsh/plugs/ &> /dev/null
 	sudo -u $USERNAME git clone --depth 1 https://github.com/catppuccin/zsh-syntax-highlighting $INSTALL_PATH/.config/zsh/plugs/catppuccin-zsyntaxhi &> /dev/null
-	sudo -u $USERNAME git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions $INSTALL_PATH/.config/zsh/plugs/zsh-autosuggetions &> /dev/null
+	sudo -u $USERNAME git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions $INSTALL_PATH/.config/zsh/plugs/zsh-autosuggestions &> /dev/null
 	sudo -u $USERNAME git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting $INSTALL_PATH/.config/zsh/plugs/zsh-syntax-highlighting &> /dev/null
 
 	# mpd
@@ -361,4 +361,4 @@ then
 	configs_install
 fi
 
-dialog --msgbox "Finished installation of GG's Integrated Developement & Living Enviroment (IDLE)" 0 0 3>&1 1>&2 2>&3 3>&1
+dialog --msgbox "Finished the installation of GG's Integrated Developement & Living Enviroment (IDLE)" 0 0 3>&1 1>&2 2>&3 3>&1
