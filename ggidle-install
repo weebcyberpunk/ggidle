@@ -339,7 +339,7 @@ yay 	--version 	&> /dev/null || error "Cannot run yay! Please install all depend
 wget 	--version 	&> /dev/null || error "Cannot run wget! Please install all dependencies before running the install script!"
 unzip 	--help  	&> /dev/null || error "Cannot run unzip! Please install all dependencies before running the install script!"
 sudo 	--version  	&> /dev/null || error "Cannot run sudo! Please install all dependencies before running the install script!"
-pacman -Q xorg-server 	&> /dev/null || error "The X server is not installed! Please install all dependencies before running the install script!"
+xsetroot		&> /dev/null || error "Cannot run xsetroot! Please install all dependencies before running the install script!"
 
 # --test is only meant to be runned on developing, but I will commit that anyway
 # the flag will make all sudo and install features to be skipped
