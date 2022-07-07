@@ -47,8 +47,8 @@ WALLPAPERS_URL=$REMOTE_LINK"wallpapers"
 # LIB {{{
 # prints error msg and exits
 function error {
-	echo "$1"
-	exit 1
+    echo "$1"
+    exit 1
 }
 
 # }}}
@@ -57,75 +57,75 @@ function error {
 
 # username
 function getusername {
-	USERNAME=$(
-		dialog --no-cancel \
-		--title "Welcome to the GG's IDLE installation!" \
-		--inputbox "Please enter the username to the user which will use GG's IDLE. If the user don't exists, the script will create it.\n
+    USERNAME=$(
+        dialog --no-cancel \
+        --title "Welcome to the GG's IDLE installation!" \
+        --inputbox "Please enter the username to the user which will use GG's IDLE. If the user don't exists, the script will create it.\n
 If it exists, some config files will be overwritten." \
-		0 0 \
-		3>&1 1>&2 2>&3 3>&1
-	)
-	if [ "$USERNAME" == "1" ]
-	then
-		error "User exited"
-	fi
+        0 0 \
+        3>&1 1>&2 2>&3 3>&1
+    )
+    if [ "$USERNAME" == "1" ]
+    then
+        error "User exited"
+    fi
 
-	while ! echo $USERNAME | grep -q "^[a-z_][a-z0-9_-]*$"; do
-		USERNAME=$(
-		dialog --no-cancel \
-		--inputbox "Invalid username. Remember that usernames needs to be only lowercase letters, _ and - and start with a letter" \
-		0 0 \
-		3>&1 1>&2 2>&3 3>&1
-		)
-		if [ "$USERNAME" == "1" ]
-		then
-			error "User exited"
-		fi
-	done
+    while ! echo $USERNAME | grep -q "^[a-z_][a-z0-9_-]*$"; do
+        USERNAME=$(
+        dialog --no-cancel \
+        --inputbox "Invalid username. Remember that usernames needs to be only lowercase letters, _ and - and start with a letter" \
+        0 0 \
+        3>&1 1>&2 2>&3 3>&1
+        )
+        if [ "$USERNAME" == "1" ]
+        then
+            error "User exited"
+        fi
+    done
 }
 
 # wallpapers path
 function wallpapersconfig {
-	WALLPAPERS_PATH=$(
-		dialog --no-cancel \
-		--menu "Choose directory to install the IDLE wallpapers: " \
-		0 0 0 \
-		"/usr/share/backgrounds/Wallpapers" "Recommended, accessible system-wide and with automagically wallpaper setup" \
-		'pics/Wallpapers' "Accessible only by the $USERNAME user and without automagically setup" \
-		3>&1 1>&2 2>&3 3>&1
-	)
+    WALLPAPERS_PATH=$(
+        dialog --no-cancel \
+        --menu "Choose directory to install the IDLE wallpapers: " \
+        0 0 0 \
+        "/usr/share/backgrounds/Wallpapers" "Recommended, accessible system-wide and with automagically wallpaper setup" \
+        'pics/Wallpapers' "Accessible only by the $USERNAME user and without automagically setup" \
+        3>&1 1>&2 2>&3 3>&1
+    )
 
-	if [ "$WALLPAPERS_PATH" == "" ]
-	then
-		error "User exited"
-	fi
+    if [ "$WALLPAPERS_PATH" == "" ]
+    then
+        error "User exited"
+    fi
 }
 
 # additional configs/installs: (Neo)Vim, Zathura, tmux, cava, mutt, htop
 function add_config {
-	ADD_CONFIG=$(
-		dialog --no-cancel \
-		--checklist "Select additional configs to install: " \
-		0 0 0 \
-		"NyanVim" "GG's configs to make Neovim become a terminal-based IDE" "nvim" \
-		"Zathura" "IDLE configs to the Zathura PDF reader" "zathura" \
-		"tmux" "IDLE configs for the tmux multiplexer" "tmux" \
-		"cava" "IDLE configs for the cava audio visualizer" "cava" \
-		"lightdm" "You probably don't want it if you already have a display manager" "lightdm" \
-		3>&1 1>&2 2>&3 3>&1
-	)
+    ADD_CONFIG=$(
+        dialog --no-cancel \
+        --checklist "Select additional configs to install: " \
+        0 0 0 \
+        "NyanVim" "GG's configs to make Neovim become a terminal-based IDE" "nvim" \
+        "Zathura" "IDLE configs to the Zathura PDF reader" "zathura" \
+        "tmux" "IDLE configs for the tmux multiplexer" "tmux" \
+        "cava" "IDLE configs for the cava audio visualizer" "cava" \
+        "lightdm" "You probably don't want it if you already have a display manager" "lightdm" \
+        3>&1 1>&2 2>&3 3>&1
+    )
 }
 
 # terminal build
 function whichterm {
-	WHICH_TERM=$(
-		dialog --no-cancel \
-		--menu "Choose the ST terminal build you want to use: " \
-		0 0 0 \
-		"st" "Default plain background" \
-		"st-transparent" "ST with transparent background" \
-		3>&1 1>&2 2>&3 3>&1
-	)
+    WHICH_TERM=$(
+        dialog --no-cancel \
+        --menu "Choose the ST terminal build you want to use: " \
+        0 0 0 \
+        "st" "Default plain background" \
+        "st-transparent" "ST with transparent background" \
+        3>&1 1>&2 2>&3 3>&1
+    )
 }
 
 # }}}
@@ -134,219 +134,219 @@ function whichterm {
 
 # perform full sys upgrade
 function sysupgrade {
-	echo 'Performing full system upgrade...'
-	pacman -Syu --noconfirm || error "Cannot upgrade system. Are you sure you are running this from an Arch-based GNU/Linux distribution, is root and have internet connection?"
+    echo 'Performing full system upgrade...'
+    pacman -Syu --noconfirm || error "Cannot upgrade system. Are you sure you are running this from an Arch-based GNU/Linux distribution, is root and have internet connection?"
 }
 
 function createuser {
-	PASS=$(
-		dialog --no-cancel \
-		--passwordbox \
-		"Detected that $USERNAME does not exists. To create it, please enter the new user password: " \
-		0 0 \
-		3>&1 1>&2 2>&3 3>&1
-	)
-	PASS_AGAIN=$(
-		dialog --no-cancel \
-		--passwordbox \
-		"Retype password for confirmation: " \
-		0 0 \
-		3>&1 1>&2 2>&3 3>&1
-	)
-	if [ "$IS_TEST" != "true" ]
-	then
-		useradd -m -G games,floppy,scanner,storage,optical,kvm,input,disk,wheel $USERNAME
-	fi
+    PASS=$(
+        dialog --no-cancel \
+        --passwordbox \
+        "Detected that $USERNAME does not exists. To create it, please enter the new user password: " \
+        0 0 \
+        3>&1 1>&2 2>&3 3>&1
+    )
+    PASS_AGAIN=$(
+        dialog --no-cancel \
+        --passwordbox \
+        "Retype password for confirmation: " \
+        0 0 \
+        3>&1 1>&2 2>&3 3>&1
+    )
+    if [ "$IS_TEST" != "true" ]
+    then
+        useradd -m -G games,floppy,scanner,storage,optical,kvm,input,disk,wheel $USERNAME
+    fi
 
-	while [ "$PASS" != "$PASS_AGAIN" ]
-	do
-		unset PASS_AGAIN
-		PASS=$(
-			dialog --passwordbox --no-cancel \
-			"Passwords don't match. Please enter again: " \
-			0 0 \
-			3>&1 1>&2 2>&3 3>&1
-		)
-		PASS_AGAIN=$(
-			dialog --passwordbox --no-cancel \
-			"Retype: " \
-			0 0 \
-			3>&1 1>&2 2>&3 3>&1
-		)
-	done
+    while [ "$PASS" != "$PASS_AGAIN" ]
+    do
+        unset PASS_AGAIN
+        PASS=$(
+            dialog --passwordbox --no-cancel \
+            "Passwords don't match. Please enter again: " \
+            0 0 \
+            3>&1 1>&2 2>&3 3>&1
+        )
+        PASS_AGAIN=$(
+            dialog --passwordbox --no-cancel \
+            "Retype: " \
+            0 0 \
+            3>&1 1>&2 2>&3 3>&1
+        )
+    done
 
-	if [ "$IS_TEST" != "true" ]
-	then
-		echo "$USERNAME:$PASS" | chpasswd
-	fi
+    if [ "$IS_TEST" != "true" ]
+    then
+        echo "$USERNAME:$PASS" | chpasswd
+    fi
 
-	unset PASS
-	unset PASS_AGAIN
+    unset PASS
+    unset PASS_AGAIN
 }
 
 # check if user exists. if y, do nothing. if n, creates it
 function checkuser {
-	id -u $USERNAME &> /dev/null || createuser
+    id -u $USERNAME &> /dev/null || createuser
 }
 
 # }}}
 
 # INSTALL {{{
 function programs_install {
-	dialog --infobox "Installing programs from repo's progs file... This can take several minutes..." 0 0 3>&1 1>&2 2>&3 3>&1
+    dialog --infobox "Installing programs from repo's progs file... This can take several minutes..." 0 0 3>&1 1>&2 2>&3 3>&1
 
-	if [ "$IS_TEST" == "true" ]
-	then
-		sleep 5s
-	else
-		pacman -S --needed --noconfirm $(cat repo-progs) &> /tmp/ggidle-pac-log || error "error installing programs with pacman, see logs at /tmp/ggidle-pac-log"
-	fi
+    if [ "$IS_TEST" == "true" ]
+    then
+        sleep 5s
+    else
+        pacman -S --needed --noconfirm $(cat repo-progs) &> /tmp/ggidle-pac-log || error "error installing programs with pacman, see logs at /tmp/ggidle-pac-log"
+    fi
 
-	dialog --infobox "Installing programs from aur's progs file... This can take several minutes..." 0 0 3>&1 1>&2 2>&3 3>&1
+    dialog --infobox "Installing programs from aur's progs file... This can take several minutes..." 0 0 3>&1 1>&2 2>&3 3>&1
 
-	if [ "$IS_TEST" == "true" ]
-	then
-		sleep 5s
-	else
-		echo "1\n1\n" | yay --builddir /tmp --noanswerclean --noansweredit --noanswerdiff --noconfirm --removemake -S --needed $(cat aur-progs) &> /tmp/ggidle-yay-log || error "error installing programs with yay, see logs at /tmp/ggidle-yay-log"
-	fi
+    if [ "$IS_TEST" == "true" ]
+    then
+        sleep 5s
+    else
+        echo "1\n1\n" | yay --builddir /tmp --noanswerclean --noansweredit --noanswerdiff --noconfirm --removemake -S --needed $(cat aur-progs) &> /tmp/ggidle-yay-log || error "error installing programs with yay, see logs at /tmp/ggidle-yay-log"
+    fi
 
-	dialog --infobox "Installing suckless software" 0 0 3>&1 1>&2 2>&3 3>&1
+    dialog --infobox "Installing suckless software" 0 0 3>&1 1>&2 2>&3 3>&1
 
-	if [ "$IS_TEST" == "true" ]
-	then
-		sleep 5s
-	else
-		sudo -u $USERNAME mkdir -p "$INSTALL_PATH/.local/share/"
-		sudo -u $USERNAME git clone "$SUCKLESS_BUILDS_URL" "$INSTALL_PATH/.local/share/suckless" &> /dev/null
-		DIR=$(pwd)
-		cd "$INSTALL_PATH/.local/share/suckless/dwm"
+    if [ "$IS_TEST" == "true" ]
+    then
+        sleep 5s
+    else
+        sudo -u $USERNAME mkdir -p "$INSTALL_PATH/.local/share/"
+        sudo -u $USERNAME git clone "$SUCKLESS_BUILDS_URL" "$INSTALL_PATH/.local/share/suckless" &> /dev/null
+        DIR=$(pwd)
+        cd "$INSTALL_PATH/.local/share/suckless/dwm"
 
-		# set correct home before install
-		sudo -u $USERNAME sed -i "s/#define SCRIPTS_HOME \"\/home\/gg\/\.local\/bin/#define SCRIPTS_HOME \"\/home\/$USERNAME\/\.local\/bin/g" config.def.h &> /dev/null
-		sudo -u $USERNAME sed -i "s/#define SCRIPTS_HOME \"\/home\/gg\/\.local\/bin/#define SCRIPTS_HOME \"\/home\/$USERNAME\/\.local\/bin/g" config.h &> /dev/null
+        # set correct home before install
+        sudo -u $USERNAME sed -i "s/#define SCRIPTS_HOME \"\/home\/gg\/\.local\/bin/#define SCRIPTS_HOME \"\/home\/$USERNAME\/\.local\/bin/g" config.def.h &> /dev/null
+        sudo -u $USERNAME sed -i "s/#define SCRIPTS_HOME \"\/home\/gg\/\.local\/bin/#define SCRIPTS_HOME \"\/home\/$USERNAME\/\.local\/bin/g" config.h &> /dev/null
 
-		make install &> /dev/null
-		cd "$INSTALL_PATH/.local/share/suckless/dmenu"
-		make install &> /dev/null
-		cd "$INSTALL_PATH/.local/share/suckless/$WHICH_TERM"
-		make install &> /dev/null
-		cd $DIR
-		unset DIR
-	fi
+        make install &> /dev/null
+        cd "$INSTALL_PATH/.local/share/suckless/dmenu"
+        make install &> /dev/null
+        cd "$INSTALL_PATH/.local/share/suckless/$WHICH_TERM"
+        make install &> /dev/null
+        cd $DIR
+        unset DIR
+    fi
 }
 
 function configs_install {
 
-	dialog --infobox "Installing configs" 0 0 3>&1 1>&2 2>&3 3>&1
+    dialog --infobox "Installing configs" 0 0 3>&1 1>&2 2>&3 3>&1
 
-	sudo -u $USERNAME mkdir -p "$INSTALL_PATH/.config" &> /dev/null
-	sudo -u $USERNAME mkdir -p "$INSTALL_PATH/.local/share" &> /dev/null
-	sudo -u $USERNAME mkdir -p "$INSTALL_PATH/.local/bin" &> /dev/null
-	sudo -u $USERNAME mkdir -p "$INSTALL_PATH/.icons" &> /dev/null
-	git clone --depth 1 "$DOTS_URL" /tmp/dots &> /dev/null
-	DIR=$(pwd)
-	cd /tmp/dots
-	sudo -u $USERNAME cp -r .config/{dunst,galculator,gtk-*,lf,mpd,ncmpcpp,nitrogen,picom,zsh,htop,user-dirs*} "$INSTALL_PATH/.config/" &> /dev/null
+    sudo -u $USERNAME mkdir -p "$INSTALL_PATH/.config" &> /dev/null
+    sudo -u $USERNAME mkdir -p "$INSTALL_PATH/.local/share" &> /dev/null
+    sudo -u $USERNAME mkdir -p "$INSTALL_PATH/.local/bin" &> /dev/null
+    sudo -u $USERNAME mkdir -p "$INSTALL_PATH/.icons" &> /dev/null
+    git clone --depth 1 "$DOTS_URL" /tmp/dots &> /dev/null
+    DIR=$(pwd)
+    cd /tmp/dots
+    sudo -u $USERNAME cp -r .config/{dunst,galculator,gtk-*,lf,mpd,ncmpcpp,nitrogen,picom,zsh,htop,user-dirs*} "$INSTALL_PATH/.config/" &> /dev/null
 
-	# set permissions for lf file
-	sudo -u $USERNAME chmod +x "$INSTALL_PATH/.config/lf/scope" &> /dev/null
+    # set permissions for lf file
+    sudo -u $USERNAME chmod +x "$INSTALL_PATH/.config/lf/scope" &> /dev/null
 
-	sudo -u $USERNAME cp -r .local/share/* "$INSTALL_PATH/.local/share/" &> /dev/null
-	sudo -u $USERNAME cp .local/bin/* "$INSTALL_PATH/.local/bin/" &> /dev/null
-	sudo -u $USERNAME chmod +x $INSTALL_PATH/.local/bin/* &> /dev/null
-	sudo -u $USERNAME cp -r .icons/* "$INSTALL_PATH/.icons" &> /dev/null
-	sudo -u $USERNAME cp .xprofile "$INSTALL_PATH" &> /dev/null
-	sudo -u $USERNAME cp .zshenv "$INSTALL_PATH" &> /dev/null
+    sudo -u $USERNAME cp -r .local/share/* "$INSTALL_PATH/.local/share/" &> /dev/null
+    sudo -u $USERNAME cp .local/bin/* "$INSTALL_PATH/.local/bin/" &> /dev/null
+    sudo -u $USERNAME chmod +x $INSTALL_PATH/.local/bin/* &> /dev/null
+    sudo -u $USERNAME cp -r .icons/* "$INSTALL_PATH/.icons" &> /dev/null
+    sudo -u $USERNAME cp .xprofile "$INSTALL_PATH" &> /dev/null
+    sudo -u $USERNAME cp .zshenv "$INSTALL_PATH" &> /dev/null
 
-	# catppuccin cursors
-	wget https://github.com/catppuccin/cursors/raw/main/cursors/Catppuccin-Mocha-Sky-Cursors.zip &> /dev/null
-	sudo -u $USERNAME unzip Catppuccin-Mocha-Sky-Cursors.zip -d $INSTALL_PATH/.icons/ &> /dev/null
-	sudo -u $USERNAME mv $INSTALL_PATH/.icons/Catppuccin-Mocha-Sky-Cursors $INSTALL_PATH/.icons/Catppuccin-Mocha-Sky &> /dev/null
+    # catppuccin cursors
+    wget https://github.com/catppuccin/cursors/raw/main/cursors/Catppuccin-Mocha-Sky-Cursors.zip &> /dev/null
+    sudo -u $USERNAME unzip Catppuccin-Mocha-Sky-Cursors.zip -d $INSTALL_PATH/.icons/ &> /dev/null
+    sudo -u $USERNAME mv $INSTALL_PATH/.icons/Catppuccin-Mocha-Sky-Cursors $INSTALL_PATH/.icons/Catppuccin-Mocha-Sky &> /dev/null
 
-	# add_config
-	case "$ADD_CONFIG" in
-		*Zathura* )
-			sudo -u $USERNAME cp -r .config/zathura "$INSTALL_PATH/.config/" &> /dev/null
-		;;
-	esac
-	case "$ADD_CONFIG" in
-		*tmux* )
-			sudo -u $USERNAME cp -r .config/tmux "$INSTALL_PATH/.config/" &> /dev/null
-		;;
-	esac
-	case "$ADD_CONFIG" in
-		*cava* )
-			sudo -u $USERNAME cp -r .config/cava "$INSTALL_PATH/.config/" &> /dev/null
-		;;
-	esac
-	case "$ADD_CONFIG" in
-		*NyanVim* )
-			sudo -u $USERNAME git clone $VIM_URL "$INSTALL_PATH/.config/nvim" &> /dev/null
-		;;
-	esac
-	case "$ADD_CONFIG" in
-		*lightdm* )
-			pacman -S --needed --noconfirm lightdm lightdm-gtk-greeter &> /dev/null
-			systemctl enable lightdm.service &> /dev/null
-			mkdir -p /etc/lightdm &> /dev/null
-			cp others/lightdm/* /etc/lightdm
-		;;
-	esac
-	cd $DIR
-	unset DIR
+    # add_config
+    case "$ADD_CONFIG" in
+        *Zathura* )
+            sudo -u $USERNAME cp -r .config/zathura "$INSTALL_PATH/.config/" &> /dev/null
+        ;;
+    esac
+    case "$ADD_CONFIG" in
+        *tmux* )
+            sudo -u $USERNAME cp -r .config/tmux "$INSTALL_PATH/.config/" &> /dev/null
+        ;;
+    esac
+    case "$ADD_CONFIG" in
+        *cava* )
+            sudo -u $USERNAME cp -r .config/cava "$INSTALL_PATH/.config/" &> /dev/null
+        ;;
+    esac
+    case "$ADD_CONFIG" in
+        *NyanVim* )
+            sudo -u $USERNAME git clone $VIM_URL "$INSTALL_PATH/.config/nvim" &> /dev/null
+        ;;
+    esac
+    case "$ADD_CONFIG" in
+        *lightdm* )
+            pacman -S --needed --noconfirm lightdm lightdm-gtk-greeter &> /dev/null
+            systemctl enable lightdm.service &> /dev/null
+            mkdir -p /etc/lightdm &> /dev/null
+            cp others/lightdm/* /etc/lightdm
+        ;;
+    esac
+    cd $DIR
+    unset DIR
 
-	# dwm.desktop
-	mkdir -p /usr/share/xsessions/
-	mv x/dwm.desktop /usr/share/xsessions/dwm.desktop
+    # dwm.desktop
+    mkdir -p /usr/share/xsessions/
+    mv x/dwm.desktop /usr/share/xsessions/dwm.desktop
 
-	# directories
-	sudo -u $USERNAME mkdir $INSTALL_PATH/{desk,dls,doc,mus,pics,vids} &> /dev/null
-	sudo -u $USERNAME xdg-user-dirs-update &> /dev/null
+    # directories
+    sudo -u $USERNAME mkdir $INSTALL_PATH/{desk,dls,doc,mus,pics,vids} &> /dev/null
+    sudo -u $USERNAME xdg-user-dirs-update &> /dev/null
 
-	dialog --infobox "Installing wallpapers" 0 0 3>&1 1>&2 2>&3 3>&1
+    dialog --infobox "Installing wallpapers" 0 0 3>&1 1>&2 2>&3 3>&1
 
-	# wallpapers
-	if [ "$WALLPAPERS_PATH" == 'pics/Wallpapers' ]
-	then
-		sudo -u $USERNAME git clone $WALLPAPERS_URL $INSTALL_PATH/pics/Wallpapers --depth 1 &> /dev/null
-	else
-		mkdir -p /usr/share/backgrounds
-		git clone $WALLPAPERS_URL /usr/share/backgrounds/Wallpapers --depth 1 &> /dev/null
-	fi
+    # wallpapers
+    if [ "$WALLPAPERS_PATH" == 'pics/Wallpapers' ]
+    then
+        sudo -u $USERNAME git clone $WALLPAPERS_URL $INSTALL_PATH/pics/Wallpapers --depth 1 &> /dev/null
+    else
+        mkdir -p /usr/share/backgrounds
+        git clone $WALLPAPERS_URL /usr/share/backgrounds/Wallpapers --depth 1 &> /dev/null
+    fi
 
-	# shell
-	dialog --infobox "Changing shell to zsh, this will require the password of the IDLE user" 0 0 3>&1 1>&2 2>&3 3>&1
-	sudo -u $USERNAME chsh -s /usr/bin/zsh
-	sudo -u $USERNAME mkdir -p $INSTALL_PATH/.config/zsh/plugs/ &> /dev/null
-	sudo -u $USERNAME git clone --depth 1 https://github.com/catppuccin/zsh-syntax-highlighting $INSTALL_PATH/.config/zsh/plugs/catppuccin-zsyntaxhi &> /dev/null
-	sudo -u $USERNAME git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions $INSTALL_PATH/.config/zsh/plugs/zsh-autosuggestions &> /dev/null
-	sudo -u $USERNAME git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting $INSTALL_PATH/.config/zsh/plugs/zsh-syntax-highlighting &> /dev/null
+    # shell
+    dialog --infobox "Changing shell to zsh, this will require the password of the IDLE user" 0 0 3>&1 1>&2 2>&3 3>&1
+    sudo -u $USERNAME chsh -s /usr/bin/zsh
+    sudo -u $USERNAME mkdir -p $INSTALL_PATH/.config/zsh/plugs/ &> /dev/null
+    sudo -u $USERNAME git clone --depth 1 https://github.com/catppuccin/zsh-syntax-highlighting $INSTALL_PATH/.config/zsh/plugs/catppuccin-zsyntaxhi &> /dev/null
+    sudo -u $USERNAME git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions $INSTALL_PATH/.config/zsh/plugs/zsh-autosuggestions &> /dev/null
+    sudo -u $USERNAME git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting $INSTALL_PATH/.config/zsh/plugs/zsh-syntax-highlighting &> /dev/null
 
-	# mpd
-	dialog --infobox "Enabling mpd, this will require the password of the IDLE user" 0 0 3>&1 1>&2 2>&3 3>&1
-	sudo -u $USERNAME systemctl --user enable mpd
+    # mpd
+    dialog --infobox "Enabling mpd, this will require the password of the IDLE user" 0 0 3>&1 1>&2 2>&3 3>&1
+    sudo -u $USERNAME systemctl --user enable mpd
 }
 # }}}
 
 IS_TEST="true"
 
 # checks if dependencies are installed
-git     --version 	&> /dev/null || error "Cannot run git! Please install all dependencies before running the install script!"
-dialog  --version 	&> /dev/null || error "Cannot run dialog! Please install all dependencies before running the install script!"
-makepkg --version 	&> /dev/null || error "Cannot run makepkg! Please install all dependencies before running the install script!"
-yay 	--version 	&> /dev/null || error "Cannot run yay! Please install all dependencies before running the install script!"
-wget 	--version 	&> /dev/null || error "Cannot run wget! Please install all dependencies before running the install script!"
-unzip 	--help  	&> /dev/null || error "Cannot run unzip! Please install all dependencies before running the install script!"
-sudo 	--version  	&> /dev/null || error "Cannot run sudo! Please install all dependencies before running the install script!"
-xsetroot		&> /dev/null || error "Cannot run xsetroot! Please install all dependencies before running the install script!"
+git     --version &> /dev/null || error "Cannot run git! Please install all dependencies before running the install script!"
+dialog  --version &> /dev/null || error "Cannot run dialog! Please install all dependencies before running the install script!"
+makepkg --version &> /dev/null || error "Cannot run makepkg! Please install all dependencies before running the install script!"
+yay     --version &> /dev/null || error "Cannot run yay! Please install all dependencies before running the install script!"
+wget    --version &> /dev/null || error "Cannot run wget! Please install all dependencies before running the install script!"
+unzip   --help    &> /dev/null || error "Cannot run unzip! Please install all dependencies before running the install script!"
+sudo    --version &> /dev/null || error "Cannot run sudo! Please install all dependencies before running the install script!"
+xsetroot          &> /dev/null || error "Cannot run xsetroot! Please install all dependencies before running the install script!"
 
 # --test is only meant to be runned on developing, but I will commit that anyway
 # the flag will make all sudo and install features to be skipped
 if [ "$1" != "--test" ] 
 then 
-	IS_TEST="false"
-	sysupgrade
+    IS_TEST="false"
+    sysupgrade
 fi
 
 getusername
@@ -358,7 +358,7 @@ whichterm
 programs_install
 if [ "$1" != "--test" ]
 then
-	configs_install
+    configs_install
 fi
 
 dialog --msgbox "Finished the installation of GG's Integrated Developement & Living Enviroment (IDLE)" 0 0 3>&1 1>&2 2>&3 3>&1
