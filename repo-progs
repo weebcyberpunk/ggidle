@@ -17,6 +17,7 @@ xdotool
 xdg-user-dirs
 pacman-contrib
 mediainfo
+poppler
 highlight
 
 ncmpcpp
