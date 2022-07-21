@@ -39,10 +39,18 @@
 
 # vars
 REMOTE_LINK="https://www.github.com/weebcyberpunk/"
+
 SUCKLESS_BUILDS_URL=$REMOTE_LINK"suckless"
+SUCKLESS_BRANCH="master"
+
 DOTS_URL=$REMOTE_LINK"home"
+DOTS_BRANCH="master"
+
 VIM_URL=$REMOTE_LINK"nyanvim"
+VIM_BRANCH="rice"
+
 WALLPAPERS_URL=$REMOTE_LINK"wallpapers"
+WALLPAPERS_BRANCH="master"
 
 # LIB {{{
 # prints error msg and exits
@@ -218,7 +226,7 @@ function programs_install {
         sleep 5s
     else
         sudo -u $USERNAME mkdir -p "$INSTALL_PATH/.local/share/"
-        sudo -u $USERNAME git clone "$SUCKLESS_BUILDS_URL" "$INSTALL_PATH/.local/share/suckless" &> /dev/null
+        sudo -u $USERNAME git clone "$SUCKLESS_BUILDS_URL" -b "$SUCKLESS_BRANCH" "$INSTALL_PATH/.local/share/suckless" &> /dev/null
         DIR=$(pwd)
         cd "$INSTALL_PATH/.local/share/suckless/dwm"
 
@@ -244,7 +252,7 @@ function configs_install {
     sudo -u $USERNAME mkdir -p "$INSTALL_PATH/.local/share" &> /dev/null
     sudo -u $USERNAME mkdir -p "$INSTALL_PATH/.local/bin" &> /dev/null
     sudo -u $USERNAME mkdir -p "$INSTALL_PATH/.icons" &> /dev/null
-    git clone --depth 1 "$DOTS_URL" /tmp/dots &> /dev/null
+    git clone --depth 1 -b "$DOTS_BRANCH" "$DOTS_URL" /tmp/dots &> /dev/null
     DIR=$(pwd)
     cd /tmp/dots
     sudo -u $USERNAME cp -r .config/{dunst,galculator,gtk-*,lf,mpd,ncmpcpp,nitrogen,picom,zsh,htop,user-dirs*} "$INSTALL_PATH/.config/" &> /dev/null
@@ -282,7 +290,7 @@ function configs_install {
     esac
     case "$ADD_CONFIG" in
         *NyanVim* )
-            sudo -u $USERNAME git clone $VIM_URL "$INSTALL_PATH/.config/nvim" &> /dev/null
+            sudo -u $USERNAME git clone "$VIM_URL" -b "$VIM_BRANCH" "$INSTALL_PATH/.config/nvim" &> /dev/null
         ;;
     esac
     case "$ADD_CONFIG" in
@@ -309,10 +317,10 @@ function configs_install {
     # wallpapers
     if [ "$WALLPAPERS_PATH" == 'pics/Wallpapers' ]
     then
-        sudo -u $USERNAME git clone $WALLPAPERS_URL $INSTALL_PATH/pics/Wallpapers --depth 1 &> /dev/null
+        sudo -u $USERNAME git clone "$WALLPAPERS_URL" -b "$WALLPAPERS_BRANCH" $INSTALL_PATH/pics/Wallpapers --depth 1 &> /dev/null
     else
         mkdir -p /usr/share/backgrounds
-        git clone $WALLPAPERS_URL /usr/share/backgrounds/Wallpapers --depth 1 &> /dev/null
+        git clone "$WALLPAPERS_URL" -b "$WALLPAPERS_BRANCH" /usr/share/backgrounds/Wallpapers --depth 1 &> /dev/null
     fi
 
     # shell
