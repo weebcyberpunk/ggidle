@@ -41,10 +41,10 @@
 REMOTE_LINK="https://www.github.com/weebcyberpunk/"
 
 SUCKLESS_BUILDS_URL=$REMOTE_LINK"suckless"
-SUCKLESS_BRANCH="master"
+SUCKLESS_BRANCH="catppuccin-rice"
 
 DOTS_URL=$REMOTE_LINK"home"
-DOTS_BRANCH="master"
+DOTS_BRANCH="catppuccin-rice"
 
 VIM_URL=$REMOTE_LINK"nyanvim"
 VIM_BRANCH="rice"
